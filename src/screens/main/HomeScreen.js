@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import styles from './homestyle';
+import styles from './styles/homestyle';
 import { db, auth } from '../../firebase/config'
 
-export default function HomeScreen(props) {
+export default function HomeScreen({ navigation }) {
     // const [entityText, setEntityText] = useState('');
     // const [entities, setEntities] = useState([]);
 
@@ -30,9 +30,19 @@ export default function HomeScreen(props) {
     //     ) 
     // }, [])
 
+    const pressHandler = (screen) => {
+        navigation.navigate(screen)
+    }
+
     return (
         <View>
             <Text>Home Screen</Text>
+            <TouchableOpacity onPress={() => pressHandler("ToDoList")}>
+                <Text>Go to ToDoList</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => pressHandler("MonthlyCalendar")}>
+                <Text>Go to MonthlyCalendar</Text>
+            </TouchableOpacity>
         </View>
     )
 }

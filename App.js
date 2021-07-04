@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Button } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { LoginScreen, HomeScreen, RegistrationScreen } from './src/screens'
+// import Navigator from "./src/routes/MainRoute"
+import { LoginScreen, HomeScreen, RegistrationScreen, MonthlyCalendar, ToDoList } from './src/screens'
 import { decode, encode } from 'base-64'
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
@@ -11,12 +12,14 @@ import { db, auth } from './src/firebase/config'
 
 const Stack = createStackNavigator();
 
+// TODO: Make a loading screen
+
 export default function App() {
 
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState(null)
 
-  // if (loading) {
+  // if (!loading) {
   //   return (
   //     <>
   //     <h1>HElooOOO</h1>
@@ -27,7 +30,7 @@ export default function App() {
   useEffect(() => {
     const usersRef = db.collection('users');
     auth.onAuthStateChanged(user => {
-      if(user) {
+      if (user) {
         usersRef
           .doc(user.uid)
           .get()
@@ -49,9 +52,13 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          <Stack.Screen name="Home" > 
-            {props => <HomeScreen {...props} extraData={user} />}
-          </Stack.Screen>
+          <>
+            <Stack.Screen name="Home" >
+              {props => <HomeScreen {...props} extraData={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="MonthlyCalendar" component={MonthlyCalendar} />
+            <Stack.Screen name="ToDoList" component={ToDoList} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
