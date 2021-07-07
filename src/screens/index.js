@@ -26,4 +26,4 @@ export { default as MonthlyStack } from '../navigation/MonthlyStack'
 
 export { default as ProfileStack } from '../navigation/ProfileStack'
 
-export { default as Header } from '../shared/Header'
+export { default as Burger } from '../shared/Burger'

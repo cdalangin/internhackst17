@@ -3,13 +3,11 @@ import React, { useEffect, useState, Button } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer';
-// import Navigator from "./src/routes/MainRoute"
 import {
   LoginScreen, RegistrationScreen,
   MonthlyStack, ProfileStack, WeeklyStack
 } from './src/screens'
 
-import Header from './src/shared/Header.js'
 import { decode, encode } from 'base-64'
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
