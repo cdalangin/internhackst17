@@ -25,7 +25,7 @@ export default function LoginScreen({ navigation }) {
                         if (firestoreDocument.exists) {
                             const user = firestoreDocument.data()
                             console.log(user)
-                            navigation.navigate('Home', { user })
+                            navigation.navigate("Monthly View", { user })
                         } else {
                             alert("User does not exist anymore.")
                             return;

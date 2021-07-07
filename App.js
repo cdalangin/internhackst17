@@ -2,8 +2,14 @@ import 'react-native-gesture-handler';
 import React, { useEffect, useState, Button } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer';
 // import Navigator from "./src/routes/MainRoute"
-import { LoginScreen, HomeScreen, RegistrationScreen, MonthlyCalendar, ToDoList } from './src/screens'
+import {
+  LoginScreen, RegistrationScreen,
+  MonthlyStack, ProfileStack, WeeklyStack
+} from './src/screens'
+
+import Header from './src/shared/Header.js'
 import { decode, encode } from 'base-64'
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
@@ -11,6 +17,7 @@ if (!global.atob) { global.atob = decode }
 import { db, auth } from './src/firebase/config'
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 // TODO: Make a loading screen
 
@@ -50,22 +57,23 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {user ? (
-          <>
-            <Stack.Screen name="Home" >
-              {props => <HomeScreen {...props} extraData={user} />}
-            </Stack.Screen>
-            <Stack.Screen name="MonthlyCalendar" component={MonthlyCalendar} />
-            <Stack.Screen name="ToDoList" component={ToDoList} />
-          </>
-        ) : (
-          <>
+      {user ? (
+        <>
+          <Drawer.Navigator>
+            <Drawer.Screen name="Weekly View" component={WeeklyStack} />
+            <Drawer.Screen name="MonthlyView" component={MonthlyStack} />
+            <Drawer.Screen name="Profile" component={ProfileStack} />
+
+          </Drawer.Navigator>
+        </>
+      ) : (
+        <>
+          <Stack.Navigator>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
-          </>
-        )}
-      </Stack.Navigator>
+          </Stack.Navigator>
+        </>
+      )}
     </NavigationContainer>
   );
 }
