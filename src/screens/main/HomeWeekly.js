@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import styles from './styles/homestyle';
 import { db, auth } from '../../firebase/config'
+// import Schedule from "../forms/Schedule.js" <- I need this so i dont have to keep clicking back to the screen im working on
 
-export default function HomeScreen({ navigation }) {
+export default function HomeWeekly({ navigation }) {
 
     const pressHandler = (screen) => {
         navigation.navigate(screen)
     }
 
-
     return (
+
         <View>
-            <Text>Home Screen</Text>
+            <Text>Home Weekly View</Text>
             <TouchableOpacity onPress={() => pressHandler("ToDoList")}>
                 <Text>Go to ToDoList</Text>
             </TouchableOpacity>

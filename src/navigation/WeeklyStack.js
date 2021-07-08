@@ -3,7 +3,7 @@ import React, { useEffect, useState, Button } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import {
-    HomeScreen, MonthlyCalendar,
+    HomeWeekly, MonthlyCalendar,
     ToDoList, DailyView,
     HomeMonthly,
     Mood, InputToDoList,
@@ -23,7 +23,7 @@ export default function WeeklyStack({ navigation }) {
 
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Weekly View" component={HomeScreen}
+            <Stack.Screen name="Weekly View" component={HomeWeekly}
                 options={{
                     title: "Weekly View",
                     headerLeft: () => (

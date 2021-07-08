@@ -59,7 +59,7 @@ export default function App() {
         <>
           <Drawer.Navigator>
             <Drawer.Screen name="Weekly View" component={WeeklyStack} />
-            <Drawer.Screen name="MonthlyView" component={MonthlyStack} />
+            <Drawer.Screen name="Monthly View" component={MonthlyStack} />
             <Drawer.Screen name="Profile" component={ProfileStack} />
 
           </Drawer.Navigator>

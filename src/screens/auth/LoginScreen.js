@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import styles from './styles/loginstyle';
+import styles from './styles/authstyle';
 
 import { db, auth } from '../../firebase/config.js'
 
@@ -10,7 +10,7 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('')
 
     const createAccount = () => {
-        navigation.navigate('Registration')
+        navigation.navigate('Registration') 
     }
 
     const onLogin = () => {
@@ -25,7 +25,7 @@ export default function LoginScreen({ navigation }) {
                         if (firestoreDocument.exists) {
                             const user = firestoreDocument.data()
                             console.log(user)
-                            navigation.navigate("Monthly View", { user })
+                            navigation.navigate("Monthly View", { user }) // this isn't working 
                         } else {
                             alert("User does not exist anymore.")
                             return;

@@ -8,7 +8,7 @@ export default function Profile({ navigation }) {
     const logOut = () => {
         auth.signOut().then(() => {
             console.log('logged out')
-            navigation.navigate("Registration")
+            navigation.navigate("Registration") // this isn't working 
         }).catch((error) => {
             console.log(error.message)
         })
@@ -16,7 +16,7 @@ export default function Profile({ navigation }) {
     return (
         <View>
             <Text>Profile</Text>
-            <TouchableOpacity onPress={() => logOut}>
+            <TouchableOpacity onPress={() => logOut()}>
                 <Text>LogOut</Text>
             </TouchableOpacity>
         </View>
