@@ -33,7 +33,8 @@ export default function RegistrationScreen({ navigation }) {
                         .doc(uid)
                         .set(data)
                         .then(() => {
-                            navigation.navigate("Home", { user: data })
+                            // navigation.navigate("Home", { user: data })
+                            console.log("signed up!")
                         })
                         .catch((error) => {
                             alert(error)

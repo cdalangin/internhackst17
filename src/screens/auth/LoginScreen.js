@@ -10,7 +10,7 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('')
 
     const createAccount = () => {
-        navigation.navigate('Registration') 
+        navigation.navigate('Registration')
     }
 
     const onLogin = () => {
@@ -25,7 +25,7 @@ export default function LoginScreen({ navigation }) {
                         if (firestoreDocument.exists) {
                             const user = firestoreDocument.data()
                             console.log(user)
-                            navigation.navigate("Monthly View", { user }) // this isn't working 
+                            // navigation.navigate("Monthly View", { screen: "HomeMonthly", params: user })
                         } else {
                             alert("User does not exist anymore.")
                             return;
@@ -38,7 +38,6 @@ export default function LoginScreen({ navigation }) {
             .catch(error => {
                 alert(error)
             })
-        alert("click!")
     }
 
     return (

@@ -2,18 +2,18 @@ import 'react-native-gesture-handler';
 import React, { useEffect, useState, Button } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import {
-    HomeWeekly, MonthlyCalendar,
-    ToDoList, DailyView,
-    HomeMonthly,
-    Mood, InputToDoList,
-    Schedule
-} from '../screens'
+
+import HomeWeekly from '../screens/main/HomeWeekly';
+import MonthlyCalendar from "../screens/main/MonthlyCalendar"
+import DailyView from "../screens/main/DailyView"
+import ToDoList from "../shared/ToDoList"
+import HomeMonthly from '../screens/main/HomeMonthly';
+import Mood from "../screens/forms/Mood"
+import InputToDoList from "../screens/forms/InputToDoList"
+import Schedule from "../screens/forms/Schedule"
+
 import Burger from "../shared/Burger.js"
 
-import { decode, encode } from 'base-64'
-if (!global.btoa) { global.btoa = encode }
-if (!global.atob) { global.atob = decode }
 
 const Stack = createStackNavigator();
 

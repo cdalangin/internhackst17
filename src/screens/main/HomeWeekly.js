@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import styles from './styles/homestyle';
 import { db, auth } from '../../firebase/config'
+import TimelineCalendar from '../../shared/TimelineCalendar';
 // import Schedule from "../forms/Schedule.js" <- I need this so i dont have to keep clicking back to the screen im working on
 
 export default function HomeWeekly({ navigation }) {
+    // const { user } = route.params
 
+    const uid = "TGHE0GC19UYBO21EQFArsXl9GAW2"  // This is hardcoded, to be fixed
     const pressHandler = (screen) => {
-        navigation.navigate(screen)
+        navigation.navigate(screen, { uid: uid })
     }
 
     return (
@@ -34,6 +37,9 @@ export default function HomeWeekly({ navigation }) {
             <TouchableOpacity onPress={() => pressHandler("Schedule")}>
                 <Text>Go to Schedule</Text>
             </TouchableOpacity>
+
+            <TimelineCalendar />
+
         </View>
     )
 }

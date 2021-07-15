@@ -8,7 +8,7 @@ export default function Profile({ navigation }) {
     const logOut = () => {
         auth.signOut().then(() => {
             console.log('logged out')
-            navigation.navigate("Registration") // this isn't working 
+            // navigation.navigate("Registration") 
         }).catch((error) => {
             console.log(error.message)
         })

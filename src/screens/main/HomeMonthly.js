@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import MonthlyCalendar from '../../shared/MonthlyCalendar'
 // import styles from './styles/homestyle'; <= add css
 import { db, auth } from '../../firebase/config'
 
 
 export default function HomeMonthly({ navigation }) {
 
+    // const { user } = route.params
+    const uid = "TGHE0GC19UYBO21EQFArsXl9GAW2" // This is hardcoded, to be fixed
     const pressHandler = (screen) => {
-        navigation.navigate(screen)
+        navigation.navigate(screen, { uid: uid })
     }
 
     return (
@@ -31,6 +34,7 @@ export default function HomeMonthly({ navigation }) {
             <TouchableOpacity onPress={() => pressHandler("Schedule")}>
                 <Text>Go to Schedule</Text>
             </TouchableOpacity>
+            <MonthlyCalendar />
         </View>
     )
 }

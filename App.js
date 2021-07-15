@@ -1,16 +1,15 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState, Button } from 'react'
+import { Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import {
-  LoginScreen, RegistrationScreen,
-  MonthlyStack, ProfileStack, WeeklyStack
-} from './src/screens'
 
-import { decode, encode } from 'base-64'
-if (!global.btoa) { global.btoa = encode }
-if (!global.atob) { global.atob = decode }
+import LoginScreen from "./src/screens/auth/LoginScreen"
+import RegistrationScreen from "./src/screens/auth/RegistrationScreen"
+import MonthlyStack from "./src/navigation/MonthlyStack"
+import ProfileStack from "./src/navigation/ProfileStack"
+import WeeklyStack from "./src/navigation/WeeklyStack"
 
 import { db, auth } from './src/firebase/config'
 
@@ -24,17 +23,12 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState(null)
 
-  // if (!loading) {
-  //   return (
-  //     <>
-  //     <h1>HElooOOO</h1>
-  //     </>
-  //   )
-  // }
+
 
   useEffect(() => {
     const usersRef = db.collection('users');
     auth.onAuthStateChanged(user => {
+      console.log(user)
       if (user) {
         usersRef
           .doc(user.uid)
@@ -43,6 +37,7 @@ export default function App() {
             const userData = document.data()
             setLoading(false)
             setUser(userData)
+            console.log("setting user")
           })
           .catch((error) => {
             setLoading(false)
@@ -52,6 +47,14 @@ export default function App() {
       }
     });
   }, []);
+
+  if (loading) {
+    return (
+      <>
+        <Text>LOADING SCREEN</Text>
+      </>
+    )
+  }
 
   return (
     <NavigationContainer>
@@ -67,8 +70,16 @@ export default function App() {
       ) : (
         <>
           <Stack.Navigator>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Registration" component={RegistrationScreen} />
+            <Stack.Screen name="Login" component={LoginScreen}
+              options={{
+                title: 'Sign in',
+                animationTypeForReplace: !user ? 'pop' : 'push',
+              }} />
+            <Stack.Screen name="Registration" component={RegistrationScreen}
+              options={{
+                title: 'Sign up',
+                // animationTypeForReplace: !user ? 'pop' : 'push',
+              }} />
           </Stack.Navigator>
         </>
       )}
