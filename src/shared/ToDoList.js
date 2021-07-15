@@ -1,17 +1,52 @@
-import React, { useEffect, useState } from 'react'
+import { map } from 'lodash'
+import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import styles from '../screens/main/styles/homestyle';
 import { db, auth } from '../firebase/config'
+import ToDoListItem from './components/ToDoItem'
+
+import { AuthContext } from '../screens/auth/AuthContext'
 
 export default function ToDoList({ navigation }) {
-    // const { uid } = route.params
-    // const { user } = route.params
-    // var toDoItems = db.ref("users" + uid)
+    const { user } = useContext(AuthContext)
+    const [tasks, setTasks] = useState([])
+
+    const userRef = db.collection("users").doc(user.uid)
+
+    // userRef.get().then((doc) => {
+    //     if (doc.exists) {
+    //         setTasks(doc.data()["tasks"])
+    //     } else {
+    //         console.log("No such document!")
+    //     }
+    // })
+
+    userRef.onSnapshot((doc) => {
+        if (doc.exists) {
+            const taskList = doc.data()["tasks"]
+            setTasks(taskList)
+        } else {
+            console.log("No such document!")
+        }
+    })
 
     return (
-        <View>
+        <KeyboardAwareScrollView>
             <Text style={styles.title}>TODO LIST</Text>
-        </View>
+            {
+                tasks.map((task) => {
+                    return (
+                        <>
+                            {/* <Text>{task}</Text> */}
+                            <ToDoListItem task={task} />
+                        </>
+                    )
+
+                }
+                )
+            }
+        </KeyboardAwareScrollView>
     )
 }
 

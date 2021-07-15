@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, TouchableOpacity, View, Button } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -8,9 +8,10 @@ import styles from './formstyle.js';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { db, auth } from '../../firebase/config'
+import { AuthContext } from '../auth/AuthContext';
 
-export default function Schedule({ navigation, route }) {
-
+export default function Schedule({ navigation }) {
+    const { user } = useContext(AuthContext)
     const initialState = {
         "ename": "",
         "edate": "Event Date",
@@ -25,7 +26,7 @@ export default function Schedule({ navigation, route }) {
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
     const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
 
-    const { uid } = route.params // "TGHE0GC19UYBO21EQFArsXl9GAW2"
+    const uid = user.uid
 
     // Date Picker
 
@@ -109,7 +110,7 @@ export default function Schedule({ navigation, route }) {
 
     const nextScreen = () => {
         // TODO: If new user, go to input todolist, else, go back to main page
-        navigation.navigate("InputToDoList", { uid: uid })
+        navigation.navigate("InputToDoList")
     }
 
     return (
