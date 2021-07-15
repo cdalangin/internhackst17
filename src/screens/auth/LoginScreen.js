@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles/authstyle';
 
 import { db, auth } from '../../firebase/config.js'
+import { AuthContext } from "./AuthContext"
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('')
@@ -13,32 +14,7 @@ export default function LoginScreen({ navigation }) {
         navigation.navigate('Registration')
     }
 
-    const onLogin = () => {
-        auth.signInWithEmailAndPassword(email, password)
-            .then((res) => {
-                const uid = res.user.uid
-                const usersRef = db.collection('users')
-                usersRef
-                    .doc(uid)
-                    .get()
-                    .then((firestoreDocument) => {
-                        if (firestoreDocument.exists) {
-                            const user = firestoreDocument.data()
-                            console.log(user)
-                            // navigation.navigate("Monthly View", { screen: "HomeMonthly", params: user })
-                        } else {
-                            alert("User does not exist anymore.")
-                            return;
-                        }
-                    })
-                    .catch(error => {
-                        alert(error)
-                    });
-            })
-            .catch(error => {
-                alert(error)
-            })
-    }
+    const { login } = useContext(AuthContext)
 
     return (
         <View style={styles.container}>
@@ -70,7 +46,7 @@ export default function LoginScreen({ navigation }) {
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => onLogin()}>
+                    onPress={() => login(email, password, navigation)}>
                     <Text style={styles.buttonTitle}>Log in</Text>
                 </TouchableOpacity>
                 <View style={styles.footerView}>

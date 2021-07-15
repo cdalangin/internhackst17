@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles/authstyle';
 
 import { db, auth } from '../../firebase/config.js'
+import { AuthContext } from "./AuthContext"
 
 export default function RegistrationScreen({ navigation }) {
     const [fullName, setFullName] = useState('')
@@ -11,39 +12,10 @@ export default function RegistrationScreen({ navigation }) {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
+    const { register } = useContext(AuthContext)
+
     const returningUser = () => {
         navigation.navigate('Login')
-    }
-
-    const onRegister = () => {
-        if (password !== confirmPassword) {
-            alert("Error: Passwords don't match.")
-            return
-        } else {
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((res) => {
-                    const uid = res.user.uid
-                    const data = {
-                        id: uid,
-                        email,
-                        fullName,
-                    };
-                    const usersRef = db.collection('users')
-                    usersRef
-                        .doc(uid)
-                        .set(data)
-                        .then(() => {
-                            // navigation.navigate("Home", { user: data })
-                            console.log("signed up!")
-                        })
-                        .catch((error) => {
-                            alert(error)
-                        });
-                })
-                .catch((error) => {
-                    alert(error)
-                })
-        }
     }
 
     return (
@@ -95,7 +67,7 @@ export default function RegistrationScreen({ navigation }) {
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => onRegister()}>
+                    onPress={() => register(fullName, email, password, confirmPassword, navigation)}>
                     <Text style={styles.buttonTitle}>Create account</Text>
                 </TouchableOpacity>
                 <View style={styles.footerView}>
