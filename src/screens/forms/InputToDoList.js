@@ -17,7 +17,10 @@ export default function InputToDoList({ navigation }) {
 
         userDoc.update({
             tasks: firebase.firestore.FieldValue.arrayUnion(toDoItem)
-        }).then(setToDoItem(""))
+        })
+
+        setToDoItem("")
+        console.log("YAY!")
     }
 
     const nextScreen = () => {
@@ -46,7 +49,7 @@ export default function InputToDoList({ navigation }) {
 
 
             {/* Plan: As users add tasks, it will show up at the bottom of the screen */}
-            <ToDoList />
+            {/* <ToDoList /> */}
         </ScrollView>
     )
 }

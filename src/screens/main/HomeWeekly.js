@@ -5,6 +5,7 @@ import { db, auth } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext'
 
 import TimelineCalendar from '../../shared/TimelineCalendar';
+import MonthlyCalendar from '../../shared/MonthlyCalendar';
 
 export default function HomeWeekly({ navigation }) {
     const { user } = useContext(AuthContext)
@@ -16,15 +17,13 @@ export default function HomeWeekly({ navigation }) {
 
         <View>
             <Text>Home Weekly View</Text>
-            <TimelineCalendar />
+            {/* <MonthlyCalendar /> */}
+            {/* TODO: make calendar interactive in monthly view */}
+            <TouchableOpacity onPress={() => pressHandler("MonthlyCalendar")}>
+                <Text>Go to Monthly Calendar</Text>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => pressHandler("ToDoList")}>
                 <Text>Go to ToDoList</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => pressHandler("MonthlyCalendar")}>
-                <Text>Go to MonthlyCalendar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => pressHandler("DailyView")}>
-                <Text>Go to Daily</Text>
             </TouchableOpacity>
 
             {/* All these should be in that button at the bottom center */}

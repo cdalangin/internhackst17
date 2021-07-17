@@ -24,7 +24,9 @@ export default function AgendaItem(props) {
                 {/* <TouchableOpacity onPress={() => console.log(key)}>
                     <Text>TOUCH!!</Text>
                 </TouchableOpacity> */}
-                
+                <View>
+                    <Text>Key: {key}</Text>
+                </View>
                 <View>
                     <Text>Name: {ename}</Text>
                 </View>

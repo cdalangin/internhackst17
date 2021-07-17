@@ -11,13 +11,13 @@ export default function ToDoListItem(props) {
     const { user } = useContext(AuthContext)
     const task = props.task
 
-    const remove = () => {
-        const userRef = db.collection("users").doc(user.uid)
+    // const remove = () => {
+    //     const userRef = db.collection("users").doc(user.uid)
 
-        userRef.update({
-            // tasks: firebase.firestore.FieldValue.delete(task)
-        })
-    }
+    //     userRef.update({
+    //         tasks: firebase.firestore.FieldValue.delete(task)
+    //     })
+    // }
 
     return (
         <View style={style.card}>

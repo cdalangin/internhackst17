@@ -32,14 +32,17 @@ export default function DailyView({ navigation, route }) {
             <Text style={styles.title}>Daily View</Text>
             {/* TODO: Sort by start time, and show only the events of this day */}
             <Text>{dayString}</Text>
-            {todayEvents.map((event) => {
+            {todayEvents.map((event, index) => {
                 return (
-                    <AgendaItem
-                        id={event.key}
-                        estime={event.estime}
-                        eetime={event.eetime}
-                        ename={event.ename}
-                        epriority={event.epriority} />
+                    <View>
+                        <Text>{index}</Text>
+                        <AgendaItem
+                            id={event.ename}
+                            estime={event.estime}
+                            eetime={event.eetime}
+                            ename={event.ename}
+                            epriority={event.epriority} />
+                    </View>
                 )
             })}
 

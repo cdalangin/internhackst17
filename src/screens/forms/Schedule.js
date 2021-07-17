@@ -136,7 +136,7 @@ export default function Schedule({ navigation }) {
 
     const nextScreen = () => {
         // TODO: If new user, go to input todolist, else, go back to main page
-        navigation.navigate("InputToDoList")
+        navigation.navigate("Weekly View", { screen: "HomeWeekly" })
     }
 
     return (
@@ -203,7 +203,7 @@ export default function Schedule({ navigation }) {
             {/* TODO: Make an event component so that added events will compile here 
                 Maybe assign unique numbers to events so that when you delete it knows which one to delete*/}
             <View>
-                <Events />
+                {/* <Events /> */}
             </View>
         </ScrollView>
     )

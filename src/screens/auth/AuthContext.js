@@ -12,8 +12,8 @@ export const AuthProvider = ({ children }) => {
             value={{
                 user,
                 setUser,
-                login: async (email, password) => {
-                    await auth.signInWithEmailAndPassword(email, password)
+                login: (email, password) => {
+                    auth.signInWithEmailAndPassword(email, password)
                     // .then((res) => {
                     //     const uid = res.user.uid
                     //     const usersRef = db.collection('users')
@@ -36,12 +36,12 @@ export const AuthProvider = ({ children }) => {
                     //     alert(error)
                     // })
                 },
-                register: async (fullName, email, password, confirmPassword) => {
+                register: (fullName, email, password, confirmPassword) => {
                     if (password !== confirmPassword) {
                         alert("Error: Passwords don't match.")
                         return
                     } else {
-                        await auth.createUserWithEmailAndPassword(email, password)
+                        auth.createUserWithEmailAndPassword(email, password)
                             .then((res) => {
                                 const uid = res.user.uid
                                 const data = {
@@ -65,8 +65,8 @@ export const AuthProvider = ({ children }) => {
                             })
                     }
                 },
-                logout: async () => {
-                    await auth.signOut()
+                logout: () => {
+                    auth.signOut()
                     // .then(() => {
                     //     console.log('logged out')
                     // }).catch((error) => {

@@ -14,14 +14,6 @@ export default function ToDoList({ navigation }) {
 
     const userRef = db.collection("users").doc(user.uid)
 
-    // userRef.get().then((doc) => {
-    //     if (doc.exists) {
-    //         setTasks(doc.data()["tasks"])
-    //     } else {
-    //         console.log("No such document!")
-    //     }
-    // })
-
     userRef.onSnapshot((doc) => {
         if (doc.exists) {
             const taskList = doc.data()["tasks"]
@@ -40,7 +32,7 @@ export default function ToDoList({ navigation }) {
                         <>
                             {/* <Text>{task}</Text> */}
                             <ToDoListItem
-                                id={task.key}
+                                key={task.id}
                                 task={task} />
                         </>
                     )
