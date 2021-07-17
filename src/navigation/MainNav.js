@@ -25,17 +25,6 @@ export default function MainNav() {
     const { user, setUser } = useContext(AuthContext)
     const [initializing, setInitializing] = useState(true)
 
-    // const onStateChanged = (user) => {
-    //     setUser(user)
-    //     if (initializing) { setInitializing(false); }
-    // }
-
-    // useEffect(() => {
-    //     // const usersRef = db.collection('users');
-    //     auth.onAuthStateChanged(onStateChanged)
-
-
-    // }, []);
 
     const onAuthStateChanged = (user) => {
         setUser(user);
@@ -46,30 +35,6 @@ export default function MainNav() {
         const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
-
-    // useEffect(() => {
-    //     const usersRef = db.collection('users');
-    //     const subscription = auth.onAuthStateChanged(user => {
-    //         console.log(user)
-    //         if (user) {
-    //             usersRef
-    //                 .doc(user.uid)
-    //                 .get()
-    //                 .then((document) => {
-    //                     const userData = document.data()
-    //                     setLoading(false)
-    //                     setUser(user)
-    //                     console.log("setting user")
-    //                 })
-    //                 .catch((error) => {
-    //                     setInitializing(false)
-    //                 });
-    //         } else {
-    //             setInitializing(false)
-    //         }
-    //     });
-    //     return subscription
-    // }, []);
 
     if (initializing) {
         <>

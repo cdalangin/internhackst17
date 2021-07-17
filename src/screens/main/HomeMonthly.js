@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import MonthlyCalendar from '../../shared/MonthlyCalendar'
 // import styles from './styles/homestyle'; <= add css
 import { db, auth } from '../../firebase/config'
+import { AuthContext } from '../auth/AuthContext'
 
 
 export default function HomeMonthly({ navigation }) {
-
-    // const { user } = route.params
-    const uid = "TGHE0GC19UYBO21EQFArsXl9GAW2" // This is hardcoded, to be fixed
+    const { user } = useContext(AuthContext)
     const pressHandler = (screen) => {
         navigation.navigate(screen, { uid: uid })
     }
@@ -16,25 +15,17 @@ export default function HomeMonthly({ navigation }) {
     return (
         <View>
             <Text>Monthly View</Text>
-            <TouchableOpacity onPress={() => pressHandler("MonthlyCalendar")}>
-                <Text>Go to MonthlyCalendar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => pressHandler("DailyView")}>
-                <Text>Go to Daily</Text>
-            </TouchableOpacity>
-
-
+            <MonthlyCalendar />
             {/* All these should be in that button at the bottom center */}
             <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
                 <Text>Go to InputToDoList</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => pressHandler("Mood")}>
+            {/* <TouchableOpacity onPress={() => pressHandler("Mood")}>
                 <Text>Go to Mood</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity onPress={() => pressHandler("Schedule")}>
                 <Text>Go to Schedule</Text>
             </TouchableOpacity>
-            <MonthlyCalendar />
         </View>
     )
 }

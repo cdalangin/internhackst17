@@ -3,7 +3,7 @@ import React, { useEffect, useState, Button } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import MonthlyCalendar from "../screens/main/MonthlyCalendar"
+import MonthlyCalendar from '../shared/MonthlyCalendar';
 import HomeMonthly from '../screens/main/HomeMonthly';
 import DailyView from "../screens/main/DailyView"
 import Mood from "../screens/forms/Mood"

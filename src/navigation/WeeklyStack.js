@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import HomeWeekly from '../screens/main/HomeWeekly';
-import MonthlyCalendar from "../screens/main/MonthlyCalendar"
+import MonthlyCalendar from '../shared/MonthlyCalendar';
 import DailyView from "../screens/main/DailyView"
 import ToDoList from "../shared/ToDoList"
 import HomeMonthly from '../screens/main/HomeMonthly';

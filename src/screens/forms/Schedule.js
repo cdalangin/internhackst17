@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, TouchableOpacity, View, Button } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import format from 'date-fns/format'
 import Events from "../../shared/Events"
 import styles from './formstyle.js';
 
@@ -15,12 +16,28 @@ export default function Schedule({ navigation }) {
     const initialState = {
         "ename": "",
         "edate": "Event Date",
+        "eday": "Event Day",
         "estime": "Event Start Time",
         "eetime": "Event End Time",
         "epriority": ""
     }
 
-    const [infoState, setInfoState] = useState(initialState) //{eventName, eventDate, eventSTime, eventETime, priorityLevel}
+    let months = {
+        Jan: "01",
+        Feb: "02",
+        Mar: "03",
+        Apr: "04",
+        May: "05",
+        Jun: "06",
+        Jul: "07",
+        Aug: "08",
+        Sep: "09",
+        Oct: "10",
+        Nov: "11",
+        Dec: "12"
+    }
+
+    const [infoState, setInfoState] = useState(initialState)
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
@@ -38,11 +55,20 @@ export default function Schedule({ navigation }) {
         setDatePickerVisibility(false);
     };
 
+    // TODO: Change date format to YYYY-MM-DD
     const confirmDate = (date) => {
-        const format_date = date.toDateString() + ''
-        console.warn("A date has been picked: ", date);
+        const format_date = date.toDateString() + ""
+        const split_date = format_date.split(' ')
 
-        setInfoState(prevState => ({ ...prevState, "edate": format_date }))
+        // const format_date = format(date, 'yyyy-mm-dd').toString()
+
+        const day = split_date[0]
+        const strMonth = split_date[1]
+
+        const string_date = split_date[3] + "-" + months[strMonth] + "-" + split_date[2]
+        console.warn("A date has been picked: ", string_date);
+
+        setInfoState(prevState => ({ ...prevState, "edate": string_date, "eday": day }))
         hideDatePicker();
     };
 
@@ -69,7 +95,7 @@ export default function Schedule({ navigation }) {
 
     const confirmStartTime = (stime) => {
         const format_time = formatTime(stime);
-        console.warn("A start time has been picked: ", format_time);
+        console.warn("A start time has been picked: ", stime);
 
         setInfoState(prevState => ({ ...prevState, "estime": format_time }))
         hideStartTimePicker();

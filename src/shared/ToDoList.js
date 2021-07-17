@@ -39,7 +39,9 @@ export default function ToDoList({ navigation }) {
                     return (
                         <>
                             {/* <Text>{task}</Text> */}
-                            <ToDoListItem task={task} />
+                            <ToDoListItem
+                                id={task.key}
+                                task={task} />
                         </>
                     )
 
