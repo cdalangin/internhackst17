@@ -31,8 +31,11 @@ export default function MainNav() {
         if (initializing) setInitializing(false);
     };
 
+    // console.warn(auth.onAuthStateChanged(onAuthStateChanged))
+
     useEffect(() => {
         const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
+        // console.warn(subscriber)
         return subscriber; // unsubscribe on unmount
     }, []);
 

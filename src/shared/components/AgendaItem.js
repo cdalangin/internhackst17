@@ -9,9 +9,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export default function AgendaItem(props) {
     const { user } = useContext(AuthContext)
-    // const day = props.day
-    // const month = props.month
-    // const year = props.year
     const key = props.id
     const estime = props.estime
     const eetime = props.eetime

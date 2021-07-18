@@ -6,19 +6,9 @@ import { db, auth } from '../firebase/config'
 import { AuthContext } from '../screens/auth/AuthContext';
 
 export default function MonthlyCalendar({ navigation }) {
-    const { user } = useContext(AuthContext)
+    const { user, userData } = useContext(AuthContext)
 
-    const [events, setEvents] = useState([])
-    const userRef = db.collection("users").doc(user.uid)
-
-    userRef.onSnapshot((doc) => {
-        if (doc.exists) {
-            const allEvents = doc.data()["events"]
-            setEvents(allEvents)
-        } else {
-            console.log("No such document!")
-        }
-    })
+    const events = userData["events"]
 
     const edates = events.map((events) => {
         return events.edate
@@ -67,11 +57,12 @@ export default function MonthlyCalendar({ navigation }) {
                     markedDates={activeDates}
                 />
             </View>
-            <TouchableOpacity onPress={() => console.log(time)}>
+            {/* Console.logs are mainly to check if im getting the object i want */}
+            {/* <TouchableOpacity onPress={() => console.log(time)}>
                 <Text>
                     HELLO???
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     )
 }
