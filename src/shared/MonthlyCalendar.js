@@ -3,12 +3,14 @@ import { StyleSheet, Keyboard, Text, TextInput, TouchableOpacity, View } from 'r
 import { Calendar, CalendarList, Agenda, Arrow } from 'react-native-calendars';
 // import styles from './styles/homestyle'; <= add css
 import { db, auth } from '../firebase/config'
+import TimelineCalendar from './TimelineCalendar';
 import { AuthContext } from '../screens/auth/AuthContext';
 
 export default function MonthlyCalendar({ navigation }) {
     const { user, userData } = useContext(AuthContext)
 
     const events = userData["events"]
+    const [date, setDate] = useState(new Date())
 
     const edates = events.map((events) => {
         return events.edate
@@ -37,9 +39,28 @@ export default function MonthlyCalendar({ navigation }) {
 
     }
 
+    // const viewDay2 = (time) => {
+    //     const dayString = time.dateString
+
+    //     const todayEvents = []
+    //     events.map((event) => {
+    //         if (event.edate === dayString) {
+    //             todayEvents.push(event)
+    //         }
+    //     })
+
+    //     if (todayEvents.length === 0) {
+    //         navigation.navigate("DailyView", { todayEvents: "None" })
+    //     } else {
+    //         navigation.navigate("DailyView", { todayEvents: todayEvents })
+    //     }
+
+    // }
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Monthly Calendar Component</Text>
+            {/* <Text style={styles.title}>Monthly Calendar Component</Text> */}
+            <TimelineCalendar date={date} onChange={(newDate) => viewDay(newDate)} events={events} />
             <View>
                 <Calendar
                     minDate={'2021-07-14'}

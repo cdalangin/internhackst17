@@ -59,7 +59,6 @@ export default function TimelineCalendar(props) {
 
     return (
         <View>
-            <Text>Timeline Calendar</Text>
             <View style={styles.container}>
                 {week.map((weekDay) => {
                     const textStyles = [styles.label]
@@ -83,11 +82,9 @@ export default function TimelineCalendar(props) {
                     )
                 })}
             </View>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
                 <Text onPress={() => { console.log(date) }}>Press!</Text>
-            </TouchableOpacity>
-
-
+            </TouchableOpacity> */}
         </View>
     )
 }

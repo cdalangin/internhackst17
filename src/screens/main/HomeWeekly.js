@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, Keyboard, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { format } from 'date-fns';
 import styles from './styles/homestyle';
 import { db, auth } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext'
 
 import TimelineCalendar from '../../shared/TimelineCalendar';
+import AgendaItem from '../../shared/components/AgendaItem';
 import MonthlyCalendar from '../../shared/MonthlyCalendar';
 import { setDate } from 'date-fns';
-import AgendaItem from '../../shared/components/AgendaItem';
 import EmptyDay from '../../shared/components/EmptyDay'
+import PlusButton from '../../shared/components/PlusButton'
 
 export default function HomeWeekly({ navigation }) {
     const { user, userData } = useContext(AuthContext)
@@ -43,27 +44,9 @@ export default function HomeWeekly({ navigation }) {
     return (
 
         <View>
-            <Text>Home Weekly View</Text>
+            <TimelineCalendar date={date} onChange={(newDate) => dateChangeHandler(newDate)} events={events} />
             {/* <MonthlyCalendar /> */}
             {/* TODO: make calendar interactive in monthly view */}
-            <TouchableOpacity onPress={() => pressHandler("MonthlyCalendar")}>
-                <Text>Go to Monthly Calendar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => pressHandler("ToDoList")}>
-                <Text>Go to ToDoList</Text>
-            </TouchableOpacity>
-
-            {/* All these should be in that button at the bottom center */}
-            <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
-                <Text>Add InputToDoList</Text>
-            </TouchableOpacity>
-            {/* <TouchableOpacity onPress={() => pressHandler("Mood")}>
-                <Text>Go to Mood</Text>
-            </TouchableOpacity> */}
-            <TouchableOpacity onPress={() => pressHandler("Schedule")}>
-                <Text>Add Schedule</Text>
-            </TouchableOpacity>
-            <TimelineCalendar date={date} onChange={(newDate) => dateChangeHandler(newDate)} events={events} />
 
             {viewDay ? <EmptyDay /> :
                 currentEvents.map((todayEvent) => {
@@ -77,6 +60,15 @@ export default function HomeWeekly({ navigation }) {
                     )
                 })
             }
+
+            <TouchableOpacity onPress={() => pressHandler("MonthlyCalendar")}>
+                <Text>Go to Monthly Calendar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => pressHandler("ToDoList")}>
+                <Text>Go to ToDoList</Text>
+            </TouchableOpacity>
+
+            <PlusButton nav={navigation} />
         </View>
     )
 }
