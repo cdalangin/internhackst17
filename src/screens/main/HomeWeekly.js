@@ -1,25 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView, SafeAreaView, Dimensions, TouchableWithoutFeedback } from 'react-native'
-import { ScrollView as GestureHandlerScrollView } from 'react-native-gesture-handler'
+import { StyleSheet, View, ScrollView, SafeAreaView, Dimensions, TouchableWithoutFeedback } from 'react-native'
 import { format } from 'date-fns';
-import styles from './styles/homestyle';
-import { db, auth } from '../../firebase/config'
+import { db } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext'
 
 import TimelineCalendar from '../../shared/TimelineCalendar';
 import AgendaItem from '../../shared/components/AgendaItem';
-import ToDoList from '../../shared/ToDoList';
 import ToDoListItem from '../../shared/components/ToDoItem';
-import { setDate } from 'date-fns';
 import EmptyDay from '../../shared/components/EmptyDay'
 import PlusButton from '../../shared/components/PlusButton'
 import QuoteBlock from '../../shared/components/QuoteBlock';
 
-const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function HomeWeekly({ navigation }) {
-    const { user, userData } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const [events, setEvents] = useState({})
     const [tasks, setTasks] = useState([])
     const [date, setDate] = useState(new Date())
@@ -74,9 +69,6 @@ export default function HomeWeekly({ navigation }) {
             <TimelineCalendar date={date} onChange={(newDate) => dateChangeHandler(newDate)} events={events} />
             <View style={style.main}>
                 {/* <ScrollView> */}
-
-                {/* <MonthlyCalendar /> */}
-                {/* TODO: make calendar interactive in monthly view */}
 
                 <TouchableWithoutFeedback onPress={() => onPressDay()} >
                     <View>

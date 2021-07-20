@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { db } from '../../firebase/config';
 import { AuthContext } from '../../screens/auth/AuthContext';
@@ -40,7 +39,7 @@ export default function QuoteBlock(props) {
 
 const style = StyleSheet.create({
     card: {
-        backgroundColor: "#DCEDFD",
+        backgroundColor: "#fffbee",
         padding: 25,
         marginTop: 15,
         borderRadius: 10,
