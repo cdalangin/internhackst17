@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, Keyboard, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Keyboard, Pressable, Text, TextInput, TouchableOpacity, View, ScrollView, SafeAreaView, Dimensions } from 'react-native'
 import { format } from 'date-fns';
 import styles from './styles/homestyle';
 import { db, auth } from '../../firebase/config'
@@ -11,6 +11,10 @@ import MonthlyCalendar from '../../shared/MonthlyCalendar';
 import { setDate } from 'date-fns';
 import EmptyDay from '../../shared/components/EmptyDay'
 import PlusButton from '../../shared/components/PlusButton'
+import QuoteBlock from '../../shared/components/QuoteBlock';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function HomeWeekly({ navigation }) {
     const { user, userData } = useContext(AuthContext)
@@ -42,25 +46,27 @@ export default function HomeWeekly({ navigation }) {
         }
     }
     return (
-
-        <View>
+        <SafeAreaView>
+            {/* <ScrollView> */}
             <TimelineCalendar date={date} onChange={(newDate) => dateChangeHandler(newDate)} events={events} />
             {/* <MonthlyCalendar /> */}
             {/* TODO: make calendar interactive in monthly view */}
-
-            {viewDay ? <EmptyDay /> :
-                currentEvents.map((todayEvent) => {
-                    return (
-                        <AgendaItem
-                            id={todayEvent.ename}
-                            estime={todayEvent.estime}
-                            eetime={todayEvent.eetime}
-                            ename={todayEvent.ename}
-                            epriority={todayEvent.epriority} />
-                    )
-                })
-            }
-
+            <ScrollView style={style.agendalist}>
+                {viewDay ? <EmptyDay /> :
+                    currentEvents.map((todayEvent) => {
+                        return (
+                            <View key={todayEvent.ename}>
+                                <AgendaItem
+                                    id={todayEvent.ename}
+                                    estime={todayEvent.estime}
+                                    eetime={todayEvent.eetime}
+                                    ename={todayEvent.ename}
+                                    epriority={todayEvent.epriority} />
+                            </View>
+                        )
+                    })
+                }
+            </ScrollView>
             <TouchableOpacity onPress={() => pressHandler("MonthlyCalendar")}>
                 <Text>Go to Monthly Calendar</Text>
             </TouchableOpacity>
@@ -68,7 +74,22 @@ export default function HomeWeekly({ navigation }) {
                 <Text>Go to ToDoList</Text>
             </TouchableOpacity>
 
+            <QuoteBlock />
+
             <PlusButton nav={navigation} />
-        </View>
+            {/* </ScrollView> */}
+        </SafeAreaView>
     )
 }
+// TODO: When adding styles to ScrollView using contentContainerStyle, scroll feature doesn't work
+const style = StyleSheet.create({
+    main: {
+        backgroundColor: "#EEDCFD"
+    },
+    agendalist: {
+        height: windowHeight / 2,
+        // display: "flex",
+        // alignItems: "center"
+    },
+
+})

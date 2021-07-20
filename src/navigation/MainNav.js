@@ -49,7 +49,14 @@ export default function MainNav() {
         <NavigationContainer>
             {user ? (
                 <>
-                    <Drawer.Navigator>
+                    <Drawer.Navigator drawerStyle={{
+                        backgroundColor: '#E6E6FA',
+                        width: 240,
+                    }} drawerContentOptions={{
+                        activeTintColor: "#E6E6FA",
+                        activeBackgroundColor: "#9A76A5",
+                        inactiveTintColor: "#9A76A5"
+                    }}>
                         <Drawer.Screen name="Weekly View" component={WeeklyStack} />
                         <Drawer.Screen name="Monthly View" component={MonthlyStack} />
                         <Drawer.Screen name="Profile" component={ProfileStack} />

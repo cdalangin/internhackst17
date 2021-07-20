@@ -106,11 +106,11 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 14,
-        color: 'black',
+        color: '#9A76A5',
         textAlign: 'center',
     },
     selectedLabel: {
-        color: 'white',
+        color: '#9A76A5',
     },
     touchable: {
         borderRadius: 20,
@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
         width: 35,
     },
     selectedTouchable: {
-        backgroundColor: 'green',
+        backgroundColor: '#C5CDE3',
     },
 })

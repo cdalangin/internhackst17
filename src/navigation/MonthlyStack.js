@@ -18,7 +18,12 @@ const Stack = createStackNavigator();
 export default function MonthlyStack({ navigation }) {
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+      headerStyle: { elevation: 0, backgroundColor: '#EEDCFD', },
+      headerTitleStyle: { color: "#9A76A5" },
+      headerTintColor: { color: "#9A76A5" },
+      cardStyle: { backgroundColor: '#EEDCFD' }
+    }} >
       <Stack.Screen name="HomeMonthly" component={HomeMonthly}
         options={{
           title: "Monthly View",
@@ -26,12 +31,13 @@ export default function MonthlyStack({ navigation }) {
             <Burger navigation={navigation} />
           )
         }} />
-      <Stack.Screen name="MonthlyCalendar" component={MonthlyCalendar} />
       <Stack.Screen name="DailyView" component={DailyView} />
+      <Stack.Screen name="MonthlyCalendar" component={MonthlyCalendar} />
+
 
       <Stack.Screen name="InputToDoList" component={InputToDoList} />
       <Stack.Screen name="Mood" component={Mood} />
       <Stack.Screen name="Schedule" component={Schedule} />
-    </Stack.Navigator>
+    </ Stack.Navigator>
   );
 }

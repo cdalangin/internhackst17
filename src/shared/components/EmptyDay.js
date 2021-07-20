@@ -18,7 +18,7 @@ export default function EmptyItem(props) {
     return (
         <View style={style.card}>
             <View style={style.container}>
-                <Text>You don't have an event yet!</Text>
+                <Text style={style.text}>You don't have an event yet!</Text>
 
             </View>
         </View>
@@ -29,24 +29,18 @@ export default function EmptyItem(props) {
 
 const style = StyleSheet.create({
     card: {
-        backgroundColor: "white",
+        backgroundColor: "#DCEDFD",
         padding: 25,
         margin: 10,
-
+        borderRadius: 10,
     },
     container: {
         flexDirection: "column",
         alignItems: "center",
-        // justifyContent: "space-between",
     },
-    textcont: {
-        flexWrap: "wrap",
-        flexBasis: "auto"
-    },
-    task: {
-        fontSize: 20,
-    },
-    buttoncont: {
-        flexBasis: 25
+    text: {
+        color: "#9A76A5",
+        fontSize: 18,
+        textAlign: "center"
     }
 })

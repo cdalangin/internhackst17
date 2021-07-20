@@ -3,6 +3,7 @@ import { StyleSheet, Keyboard, Text, TextInput, TouchableOpacity, View } from 'r
 import { Calendar, CalendarList, Agenda, Arrow } from 'react-native-calendars';
 // import styles from './styles/homestyle'; <= add css
 import { db, auth } from '../firebase/config'
+import format from 'date-fns/format'
 import TimelineCalendar from './TimelineCalendar';
 import { AuthContext } from '../screens/auth/AuthContext';
 
@@ -39,28 +40,31 @@ export default function MonthlyCalendar({ navigation }) {
 
     }
 
-    // const viewDay2 = (time) => {
-    //     const dayString = time.dateString
+    const viewDay2 = (time) => {
+        dayString = format(time, "yyyy-MM-dd")
 
-    //     const todayEvents = []
-    //     events.map((event) => {
-    //         if (event.edate === dayString) {
-    //             todayEvents.push(event)
-    //         }
-    //     })
+        const todayEvents = []
+        events.map((event) => {
+            if (event.edate === dayString) {
+                todayEvents.push(event)
+            }
+        })
 
-    //     if (todayEvents.length === 0) {
-    //         navigation.navigate("DailyView", { todayEvents: "None" })
-    //     } else {
-    //         navigation.navigate("DailyView", { todayEvents: todayEvents })
-    //     }
+        console.log(todayEvents)
 
-    // }
+        if (todayEvents.length === 0) {
+            navigation.navigate("DailyView", { todayEvents: "None" })
+        } else {
+            navigation.navigate("DailyView", { todayEvents: todayEvents })
+        }
+
+
+    }
 
     return (
         <View style={styles.container}>
             {/* <Text style={styles.title}>Monthly Calendar Component</Text> */}
-            <TimelineCalendar date={date} onChange={(newDate) => viewDay(newDate)} events={events} />
+            <TimelineCalendar date={date} onChange={(newDate) => viewDay2(newDate)} events={events} />
             <View>
                 <Calendar
                     minDate={'2021-07-14'}
@@ -90,7 +94,7 @@ export default function MonthlyCalendar({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "gray",
+        // backgroundColor: "gray",
         padding: 20,
     },
     title: {
