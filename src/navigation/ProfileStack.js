@@ -13,7 +13,12 @@ const Stack = createStackNavigator();
 export default function ProfileStack({ navigation }) {
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+            headerStyle: { elevation: 0, backgroundColor: '#EEDCFD', },
+            headerTitleStyle: { color: "#9A76A5" },
+            headerTintColor: { color: "#9A76A5" },
+            cardStyle: { backgroundColor: '#EEDCFD' }
+        }}>
             <Stack.Screen name="Profile" component={Profile}
                 options={{
                     title: "Profile",

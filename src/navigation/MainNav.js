@@ -31,8 +31,11 @@ export default function MainNav() {
         if (initializing) setInitializing(false);
     };
 
+    // console.warn(auth.onAuthStateChanged(onAuthStateChanged))
+
     useEffect(() => {
         const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
+        // console.warn(subscriber)
         return subscriber; // unsubscribe on unmount
     }, []);
 
@@ -46,7 +49,14 @@ export default function MainNav() {
         <NavigationContainer>
             {user ? (
                 <>
-                    <Drawer.Navigator>
+                    <Drawer.Navigator drawerStyle={{
+                        backgroundColor: '#E6E6FA',
+                        width: 240,
+                    }} drawerContentOptions={{
+                        activeTintColor: "#E6E6FA",
+                        activeBackgroundColor: "#9A76A5",
+                        inactiveTintColor: "#9A76A5"
+                    }}>
                         <Drawer.Screen name="Weekly View" component={WeeklyStack} />
                         <Drawer.Screen name="Monthly View" component={MonthlyStack} />
                         <Drawer.Screen name="Profile" component={ProfileStack} />

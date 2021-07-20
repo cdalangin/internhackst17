@@ -3,6 +3,9 @@ import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'rea
 import MonthlyCalendar from '../../shared/MonthlyCalendar'
 // import styles from './styles/homestyle'; <= add css
 import { db, auth } from '../../firebase/config'
+import TimelineCalendar from '../../shared/TimelineCalendar';
+import AgendaItem from '../../shared/components/AgendaItem';
+import PlusButton from '../../shared/components/PlusButton'
 import { AuthContext } from '../auth/AuthContext'
 
 
@@ -14,22 +17,13 @@ export default function HomeMonthly({ navigation }) {
 
     return (
         <View>
-            <Text>Monthly View</Text>
-            {/* <MonthlyCalendar /> */}
+            <MonthlyCalendar />
             {/* TODO: make calendar interactive in monthly view */}
             <TouchableOpacity onPress={() => pressHandler("MonthlyCalendar")}>
                 <Text>Go to Monthly Calendar</Text>
             </TouchableOpacity>
-            {/* All these should be in that button at the bottom center */}
-            <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
-                <Text>Go to InputToDoList</Text>
-            </TouchableOpacity>
-            {/* <TouchableOpacity onPress={() => pressHandler("Mood")}>
-                <Text>Go to Mood</Text>
-            </TouchableOpacity> */}
-            <TouchableOpacity onPress={() => pressHandler("Schedule")}>
-                <Text>Go to Schedule</Text>
-            </TouchableOpacity>
+
+            <PlusButton nav={navigation} />
         </View>
     )
 }

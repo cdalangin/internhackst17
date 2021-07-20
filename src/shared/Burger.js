@@ -12,6 +12,7 @@ export default function Burger({ navigation }) {
 const styles = StyleSheet.create({
     icon: {
         position: 'absolute',
-        left: 16
+        left: 16,
+        color: "#9A76A5",
     }
 })
