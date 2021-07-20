@@ -50,14 +50,21 @@ export default function AgendaItem(props) {
 const style = StyleSheet.create({
     card: {
         backgroundColor: "#fffbee",
-        padding: 25,
-        margin: 10,
-        borderRadius: 10,
-        // width: windowWidth - 40
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        // padding: 20,
+        // margin: 10,
+        // borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "thistle",
+        width: windowWidth - 30,
+        height: windowHeight / 6
     },
     container: {
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center"
     },
     text: {
         color: "#9A76A5",

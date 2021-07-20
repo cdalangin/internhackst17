@@ -28,7 +28,7 @@ export default function DailyView({ navigation, route }) {
     const dayString = todayEvents[0].edate
 
     return (
-        <View>
+        <View style={styles.main}>
             {/* TODO: Sort by start time, and show only the events of this day */}
             {todayEvents.map((event, index) => {
                 return (
@@ -52,6 +52,15 @@ export default function DailyView({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+    main: {
+        // flex: 1,
+        // alignItems: 'center'
+        display: "flex",
+        flexDirection: "column",
+        alignItems: 'center',
+        justifyContent: "center",
+        // margin: "auto"
+    },
     title: {
         fontSize: 30,
         display: "flex",

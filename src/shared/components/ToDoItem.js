@@ -1,23 +1,25 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { db } from '../../firebase/config';
 import { AuthContext } from '../../screens/auth/AuthContext';
 
 import { MaterialIcons } from '@expo/vector-icons';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function ToDoListItem(props) {
     const { user } = useContext(AuthContext)
     const task = props.task
 
-    // const remove = () => {
-    //     const userRef = db.collection("users").doc(user.uid)
+    const remove = () => {
+        const userRef = db.collection("users").doc(user.uid)
 
-    //     userRef.update({
-    //         tasks: firebase.firestore.FieldValue.delete(task)
-    //     })
-    // }
+        userRef.update({
+            tasks: firebase.firestore.FieldValue.delete(task)
+        })
+    }
 
     return (
         <View style={style.card}>
@@ -39,10 +41,14 @@ export default function ToDoListItem(props) {
 
 const style = StyleSheet.create({
     card: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
+        // padding: 25,
+        // margin: 10,
+        backgroundColor: "#fffbee",
         padding: 25,
-        margin: 10,
-
+        margin: 5,
+        width: windowWidth - 30,
+        borderRadius: 10,
     },
     container: {
         flexDirection: "row",
@@ -54,9 +60,10 @@ const style = StyleSheet.create({
         flexBasis: "auto"
     },
     task: {
-        fontSize: 20,
+        color: "#9A76A5",
+        fontSize: 18
     },
     buttoncont: {
         flexBasis: 25
-    }
+    },
 })

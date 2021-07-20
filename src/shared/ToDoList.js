@@ -25,15 +25,17 @@ export default function ToDoList({ navigation }) {
 
     return (
         <KeyboardAwareScrollView>
-            <Text style={styles.title}>TODO LIST</Text>
+            {/* <Text style={styles.title}>TODO LIST</Text> */}
             {
                 tasks.map((task) => {
                     return (
                         <>
                             {/* <Text>{task}</Text> */}
-                            <ToDoListItem
-                                key={task.id}
-                                task={task} />
+                            <View key={task.id}>
+                                <ToDoListItem
+                                    key={task.id}
+                                    task={task} />
+                            </View>
                         </>
                     )
 

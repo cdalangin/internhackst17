@@ -37,26 +37,6 @@ export default function TimelineCalendar(props) {
         setWeek(weekDays);
     }, [date])
 
-    // const [events, setEvents] = useState([])
-    // const userRef = db.collection("users").doc(user.uid)
-
-    // userRef.onSnapshot((doc) => {
-    //     if (doc.exists) {
-    //         const allEvents = doc.data()["events"]
-    //         setEvents(allEvents)
-    //     } else {
-    //         console.log("No such document!")
-    //     }
-    // })
-
-    // const edates = events.map((events) => {
-    //     return events.edate
-    // })
-
-    // const onChange = () => {
-
-    // }
-
     return (
         <View>
             <View style={styles.container}>
@@ -82,9 +62,6 @@ export default function TimelineCalendar(props) {
                     )
                 })}
             </View>
-            {/* <TouchableOpacity>
-                <Text onPress={() => { console.log(date) }}>Press!</Text>
-            </TouchableOpacity> */}
         </View>
     )
 }
