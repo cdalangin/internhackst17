@@ -49,7 +49,7 @@ export default function AgendaItem(props) {
 
 const style = StyleSheet.create({
     card: {
-        backgroundColor: "#DCEDFD",
+        backgroundColor: "#fffbee",
         padding: 25,
         margin: 10,
         borderRadius: 10,
