@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     stats: {
-
         height: windowHeight / 3,
         width: windowWidth,
         display: "flex",

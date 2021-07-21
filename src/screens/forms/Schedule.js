@@ -3,7 +3,6 @@ import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, Toucha
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import format from 'date-fns/format'
-import Events from "../../shared/Events"
 import styles from './formstyle.js';
 
 import firebase from 'firebase/app';
