@@ -15,18 +15,18 @@ export default function ToDoListItem(props) {
     const task = props.task
     const [done, setDone] = useState(false)
 
-    const remove = () => {
-        const userRef = db.collection("users").doc(user.uid)
+    // const remove = () => {
+    //     const userRef = db.collection("users").doc(user.uid)
 
-        userRef.update({
-            tasks: firebase.firestore.FieldValue.delete(task)
-        })
-    }
+    //     userRef.update({
+    //         tasks: firebase.firestore.FieldValue.delete(task)
+    //     })
+    // }
 
     return (
         <View style={style.card}>
             <View style={style.container}>
-                {/* TODO: Use below button to delete todolist item */}
+
                 <View>
                     <TouchableOpacity onPress={() => { setDone(!done) }}>
                         {
@@ -37,16 +37,13 @@ export default function ToDoListItem(props) {
 
                     </TouchableOpacity>
                 </View>
-                {/* <View> */}
+
                 <Text style={style.task}>{task}</Text>
-                {/* </View> */}
 
             </View>
         </View>
     )
 }
-
-// TODO: Fix text so that it wraps and doesnt go past the screen width
 
 const style = StyleSheet.create({
     card: {
