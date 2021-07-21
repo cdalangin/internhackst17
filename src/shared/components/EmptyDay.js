@@ -11,7 +11,27 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function EmptyItem(props) {
     const { user } = useContext(AuthContext)
+    const [weekly, setWeekly] = useState(true)
+    const [toDoItem, setToDoItem] = useState(true)
     const navigation = props.nav
+    const type = props.type
+    const type2 = props.type2
+
+    useEffect(() => {
+        if (type == "daily") {
+            setWeekly(false)
+        } else {
+            setWeekly(true)
+        }
+
+        if (type2 == "toDoItem") {
+            setToDoItem(true)
+        } else if (type2 == "event") {
+            setToDoItem(false)
+        } else {
+            return
+        }
+    }, [])
 
     const pressHandler = (screen) => {
         navigation.navigate(screen)
@@ -20,18 +40,41 @@ export default function EmptyItem(props) {
     return (
         <View style={style.card}>
             <View style={style.container}>
-                <Text style={style.title}>You don't have an event yet!</Text>
+                <Text style={style.title}>You don't have any plans yet!</Text>
                 <View style={style.buttons}>
                     <View>
-                        <TouchableOpacity onPress={() => pressHandler("Schedule")}>
-                            <Text style={style.text}>Add an Event</Text>
-                        </TouchableOpacity>
+
+                        {weekly ?
+                            <View>
+                                {
+                                    toDoItem ? <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
+                                        < Text style={style.text}>Add a Task</Text>
+                                    </TouchableOpacity> :
+                                        <TouchableOpacity onPress={() => pressHandler("Schedule")}>
+                                            <Text style={style.text}>Add an Event</Text>
+                                        </TouchableOpacity>
+
+                                }
+                            </View>
+
+                            :
+                            <View style={style.buttons}>
+                                <TouchableOpacity onPress={() => pressHandler("Schedule")}>
+                                    <Text style={style.text}>Add an Event</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
+                                    <Text style={style.text}>Add a Task</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        }
+
 
                     </View>
 
                 </View>
-            </View>
-        </View>
+            </View >
+        </View >
     )
 }
 

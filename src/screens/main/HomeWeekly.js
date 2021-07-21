@@ -20,13 +20,19 @@ export default function HomeWeekly({ navigation }) {
     const [date, setDate] = useState(new Date())
     const [currentEvents, setCurrentEvents] = useState([]); // need initial state to be current date
     const [viewDay, setViewDay] = useState(true);
+    const [toDoItem, setToDoItem] = useState(true)
 
     useEffect(() => {
         const userRef = db.collection("users").doc(user.uid)
         userRef.onSnapshot((doc) => {
             if (doc.exists) {
                 const taskList = doc.data()["tasks"]
-                setTasks(taskList)
+                if (taskList.length === 0) {
+                    setToDoItem(true)
+                } else {
+                    setTasks(taskList)
+                    setToDoItem(false)
+                }
 
                 const eventsList = doc.data()["events"]
                 setEvents(eventsList)
@@ -34,6 +40,7 @@ export default function HomeWeekly({ navigation }) {
                 console.log("No such document!")
             }
         })
+
     }, [])
 
 
@@ -73,7 +80,7 @@ export default function HomeWeekly({ navigation }) {
                 <TouchableWithoutFeedback onPress={() => onPressDay()} >
                     <View>
                         <ScrollView style={style.agendalist}>
-                            {viewDay ? <EmptyDay nav={navigation} type="Event" /> :
+                            {viewDay ? <EmptyDay nav={navigation} type="weekly" type2="event" /> :
                                 <View>
                                     {currentEvents.map((todayEvent) => {
                                         return (
@@ -97,20 +104,22 @@ export default function HomeWeekly({ navigation }) {
                 {/* <TouchableWithoutFeedback onPress={() => onPressDay()} >
                     <View> */}
                 <ScrollView style={style.agendalist}>
-                    {
-                        tasks.map((task) => {
-                            return (
-                                <>
-                                    <View key={task}>
-                                        <ToDoListItem
-                                            key={task}
-                                            task={task} />
-                                    </View>
-                                </>
-                            )
+                    {toDoItem ? <EmptyDay nav={navigation} type="weekly" type2="toDoItem" /> :
+                        <View>
+                            {tasks.map((task) => {
+                                return (
+                                    <>
+                                        <View key={task}>
+                                            <ToDoListItem
+                                                key={task}
+                                                task={task} />
+                                        </View>
+                                    </>
+                                )
 
-                        }
-                        )
+                            }
+                            )}
+                        </View>
                     }
                 </ScrollView>
                 {/* </View>

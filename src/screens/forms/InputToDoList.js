@@ -13,12 +13,17 @@ export default function InputToDoList({ navigation }) {
     const { user } = useContext(AuthContext)
 
     const submitTask = () => {
-        var userDoc = db.collection('users').doc(user.uid)
+        if (toDoItem == "") {
+            alert("Please input a task.")
+        } else {
+            var userDoc = db.collection('users').doc(user.uid)
 
-        userDoc.update({
-            tasks: firebase.firestore.FieldValue.arrayUnion(toDoItem)
-        })
-        setToDoItem("")
+            userDoc.update({
+                tasks: firebase.firestore.FieldValue.arrayUnion(toDoItem)
+            })
+            setToDoItem("")
+        }
+
     }
 
     const nextScreen = () => {

@@ -66,6 +66,9 @@ export const AuthProvider = ({ children }) => {
                                     id: uid,
                                     email,
                                     fullName,
+                                    joined: new Date(),
+                                    tasks: [],
+                                    events: []
                                 };
                                 const usersRef = db.collection('users')
                                 usersRef

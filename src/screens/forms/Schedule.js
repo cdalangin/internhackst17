@@ -125,13 +125,26 @@ export default function Schedule({ navigation }) {
         setInfoState({ ...initialState });
     };
 
+    // "ename": "",
+    //     "edate": "Event Date",
+    //     "eday": "Event Day",
+    //     "estime": "Event Start Time",
+    //     "eetime": "Event End Time",
+    //     "epriority": ""
     const submitEvent = () => {
         const eventObj = infoState
-        var userDoc = db.collection('users').doc(uid)
 
-        userDoc.update({
-            events: firebase.firestore.FieldValue.arrayUnion(eventObj)
-        }).then(clearState)
+        if ((eventObj["ename"] == "") || (eventObj["eday"] === "Event Date") || (eventObj["estime"] === "Event Start Time") || (eventObj["eetime"] === "Event End Time") || (eventObj["epriority"] === "")) {
+            alert("Error: Please complete all fields.")
+            clearState()
+        } else {
+            var userDoc = db.collection('users').doc(uid)
+
+            userDoc.update({
+                events: firebase.firestore.FieldValue.arrayUnion(eventObj)
+            }).then(clearState)
+        }
+
     }
 
     const nextScreen = () => {
