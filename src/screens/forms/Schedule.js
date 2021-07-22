@@ -3,7 +3,6 @@ import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, Toucha
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import format from 'date-fns/format'
-import Events from "../../shared/Events"
 import styles from './formstyle.js';
 
 import firebase from 'firebase/app';
@@ -125,13 +124,26 @@ export default function Schedule({ navigation }) {
         setInfoState({ ...initialState });
     };
 
+    // "ename": "",
+    //     "edate": "Event Date",
+    //     "eday": "Event Day",
+    //     "estime": "Event Start Time",
+    //     "eetime": "Event End Time",
+    //     "epriority": ""
     const submitEvent = () => {
         const eventObj = infoState
-        var userDoc = db.collection('users').doc(uid)
 
-        userDoc.update({
-            events: firebase.firestore.FieldValue.arrayUnion(eventObj)
-        }).then(clearState)
+        if ((eventObj["ename"] == "") || (eventObj["eday"] === "Event Date") || (eventObj["estime"] === "Event Start Time") || (eventObj["eetime"] === "Event End Time") || (eventObj["epriority"] === "")) {
+            alert("Error: Please complete all fields.")
+            clearState()
+        } else {
+            var userDoc = db.collection('users').doc(uid)
+
+            userDoc.update({
+                events: firebase.firestore.FieldValue.arrayUnion(eventObj)
+            }).then(clearState)
+        }
+
     }
 
     const nextScreen = () => {

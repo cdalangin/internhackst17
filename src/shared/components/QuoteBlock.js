@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import firebase from 'firebase/app';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import 'firebase/firestore';
 import { db } from '../../firebase/config';
 import { AuthContext } from '../../screens/auth/AuthContext';
 
+const windowWidth = Dimensions.get('window').width;
 
 export default function QuoteBlock(props) {
     const { user } = useContext(AuthContext)
@@ -26,12 +26,6 @@ export default function QuoteBlock(props) {
         setRandomQuote("quote" + randomNum)
     }, [])
 
-    // const onPress = () => {
-    //     const randomNum = Math.floor(Math.random() * 20)
-    //     setRandomQuote("quote" + randomNum)
-    // }
-
-
     return (
         <View style={style.card}>
             <View style={style.container}>
@@ -45,11 +39,11 @@ export default function QuoteBlock(props) {
 
 const style = StyleSheet.create({
     card: {
-        backgroundColor: "#DCEDFD",
+        backgroundColor: "#fffbee",
         padding: 25,
-        margin: 10,
+        marginTop: 15,
         borderRadius: 10,
-
+        width: windowWidth - 30,
     },
     container: {
         flexDirection: "column",

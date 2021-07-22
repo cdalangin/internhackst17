@@ -1,14 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { addDays, format, getDate, isSameDay, startOfWeek } from 'date-fns';
-// import styles from './styles/homestyle'; <= add css
-import { db, auth } from '../firebase/config'
 import { AuthContext } from '../screens/auth/AuthContext';
-import AgendaItem from './components/AgendaItem';
-import { onChange } from 'react-native-reanimated';
-
-// This should be the navbar thing on top
-
 
 const getWeekDays = (date) => {
     const start = startOfWeek(date, { weekStartsOn: 0 });
@@ -37,26 +30,6 @@ export default function TimelineCalendar(props) {
         setWeek(weekDays);
     }, [date])
 
-    // const [events, setEvents] = useState([])
-    // const userRef = db.collection("users").doc(user.uid)
-
-    // userRef.onSnapshot((doc) => {
-    //     if (doc.exists) {
-    //         const allEvents = doc.data()["events"]
-    //         setEvents(allEvents)
-    //     } else {
-    //         console.log("No such document!")
-    //     }
-    // })
-
-    // const edates = events.map((events) => {
-    //     return events.edate
-    // })
-
-    // const onChange = () => {
-
-    // }
-
     return (
         <View>
             <View style={styles.container}>
@@ -82,9 +55,6 @@ export default function TimelineCalendar(props) {
                     )
                 })}
             </View>
-            {/* <TouchableOpacity>
-                <Text onPress={() => { console.log(date) }}>Press!</Text>
-            </TouchableOpacity> */}
         </View>
     )
 }

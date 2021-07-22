@@ -1,36 +1,19 @@
-import React, { createContext, useState } from 'react'
-import firebase from 'firebase/app';
+import React, { createContext, useState, useEffect } from 'react'
 import 'firebase/firestore';
+import format from 'date-fns/format'
 import { db, auth } from '../../firebase/config'
-import { useEffect } from 'react/cjs/react.development';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
-    const [userData, setUserData] = useState([])
-
-    if (user) {
-        // useEffect(() => {
-        const userRef = db.collection("users").doc(user.uid)
-        userRef.onSnapshot((doc) => {
-            if (doc.exists) {
-                const allData = doc.data()
-                setUserData(allData)
-            } else {
-                console.log("No such document!")
-            }
-        })
-        // }, [userData])
-
-    }
 
     return (
         <AuthContext.Provider
             value={{
                 user,
                 setUser,
-                userData,
+                // userData,
                 login: (email, password) => {
                     auth.signInWithEmailAndPassword(email, password)
                     // .then((res) => {
@@ -67,6 +50,9 @@ export const AuthProvider = ({ children }) => {
                                     id: uid,
                                     email,
                                     fullName,
+                                    joined: format(new Date(), "MMM dd, yyyy"),
+                                    tasks: [],
+                                    events: []
                                 };
                                 const usersRef = db.collection('users')
                                 usersRef

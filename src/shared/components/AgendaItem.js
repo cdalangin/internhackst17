@@ -21,23 +21,25 @@ export default function AgendaItem(props) {
     return (
         <View style={style.card}>
             <View style={style.container}>
-                {/* <TouchableOpacity onPress={() => console.log(key)}>
-                    <Text>TOUCH!!</Text>
-                </TouchableOpacity> */}
-                {/* <View>
-                    <Text style={style.text}>Key: {key}</Text>
-                </View> */}
-                <View>
-                    <Text style={style.text}>Name: {ename}</Text>
+                <View style={style.times}>
+                    <View >
+                        <Text style={style.timetext}>{estime}</Text>
+                    </View>
+                    <View >
+                        <Text style={style.text}>to</Text>
+                    </View>
+                    <View >
+                        <Text style={style.timetext}>{eetime}</Text>
+                    </View>
                 </View>
-                <View >
-                    <Text style={style.text}>Start Time:{estime}</Text>
-                </View>
-                <View >
-                    <Text style={style.text}>End Time: {eetime}</Text>
-                </View>
-                <View>
-                    <Text style={style.text} >Priority Level: {epriority}</Text>
+                <View style={style.info}>
+                    <View >
+                        <Text style={style.name}>{ename}</Text>
+                    </View>
+
+                    <View style={style.prioview}>
+                        <Text style={style.prio}>Priority Level: {epriority}</Text>
+                    </View>
                 </View>
 
             </View>
@@ -45,23 +47,63 @@ export default function AgendaItem(props) {
     )
 }
 
-// TODO: Fix text so that it wraps and doesnt go past the screen width
+// TODO: Make priority labels into button like things
 
 const style = StyleSheet.create({
     card: {
-        backgroundColor: "#DCEDFD",
-        padding: 25,
-        margin: 10,
-        borderRadius: 10,
-        // width: windowWidth - 40
+        backgroundColor: "#fffbee",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-around",
+        borderWidth: 1,
+        borderColor: "thistle",
+        width: windowWidth - 30,
+        minHeight: windowHeight / 6,
+        padding: 5
     },
     container: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        maxWidth: windowWidth - 30,
+    },
+    times: {
+        display: "flex",
+        flexDirection: "column",
+        margin: 5
+    },
+    timetext: {
+        color: "#C5CDE3",
+        fontWeight: "bold",
+        fontSize: 30,
+        textAlign: "center"
+    },
+    info: {
+        display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "space-around",
+        width: windowWidth / 2,
+        margin: 5
     },
     text: {
         color: "#9A76A5",
         fontSize: 18,
         textAlign: "center"
+    },
+    name: {
+        margin: 5,
+        fontSize: 30,
+        fontWeight: "bold",
+        color: "#9A76A5",
+        textAlign: "center",
+    },
+    // prioview: {
+    //     alignSelf: "flex-end"
+    // },
+    prio: {
+        margin: 5,
+        color: "#9A76A5",
+        textAlign: "center",
     }
 })

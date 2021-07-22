@@ -7,38 +7,60 @@ import { db, auth } from '../firebase/config'
 import ToDoListItem from './components/ToDoItem'
 
 import { AuthContext } from '../screens/auth/AuthContext'
+import EmptyItem from './components/EmptyDay';
 
 export default function ToDoList({ navigation }) {
     const { user } = useContext(AuthContext)
     const [tasks, setTasks] = useState([])
+    const [toDoItem, setToDoItem] = useState(true)
 
-    const userRef = db.collection("users").doc(user.uid)
+    useEffect(() => {
+        const userRef = db.collection("users").doc(user.uid)
 
-    userRef.onSnapshot((doc) => {
-        if (doc.exists) {
-            const taskList = doc.data()["tasks"]
-            setTasks(taskList)
-        } else {
-            console.log("No such document!")
-        }
-    })
+        userRef.onSnapshot((doc) => {
+            if (doc.exists) {
+                const taskList = doc.data()["tasks"]
+                if (taskList.length === 0) {
+                    setToDoItem(true)
+                } else {
+                    setTasks(taskList)
+                    setToDoItem(false)
+                }
+            } else {
+                console.log("No such document!")
+            }
+        })
 
+    }, [])
+
+    if (tasks.length > 0) {
+        setToDoItem(false)
+    } else {
+        setToDoItem(true)
+    }
     return (
         <KeyboardAwareScrollView>
-            <Text style={styles.title}>TODO LIST</Text>
-            {
-                tasks.map((task) => {
-                    return (
-                        <>
-                            {/* <Text>{task}</Text> */}
-                            <ToDoListItem
-                                key={task.id}
-                                task={task} />
-                        </>
+            {/* <Text style={styles.title}>TODO LIST</Text> */}
+            {toDoItem ?
+                <View>
+                    {tasks.map((task) => {
+                        return (
+                            <>
+                                {/* <Text>{task}</Text> */}
+                                <View key={task.id}>
+                                    <ToDoListItem
+                                        key={task.id}
+                                        task={task} />
+                                </View>
+                            </>
+                        )
+                    }
                     )
+                    }
+                </View>
+                :
+                <EmptyDay nav={navigation} type="weekly" type2="toDoItem" />
 
-                }
-                )
             }
         </KeyboardAwareScrollView>
     )

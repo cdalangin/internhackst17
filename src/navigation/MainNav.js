@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useContext, useEffect, useState, Button } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -11,9 +11,10 @@ import MonthlyStack from "./MonthlyStack"
 import ProfileStack from "./ProfileStack"
 import WeeklyStack from "./WeeklyStack"
 
-import { db, auth } from '../firebase/config'
+import { auth } from '../firebase/config'
 
 import { AuthContext } from "../screens/auth/AuthContext"
+import AppLoading from 'expo-app-loading';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

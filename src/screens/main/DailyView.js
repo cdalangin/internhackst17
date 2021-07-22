@@ -1,60 +1,59 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { Calendar, CalendarList, Agenda, Arrow } from 'react-native-calendars';
-// import styles from './styles/homestyle'; <= add css
+import { StyleSheet, View, Dimensions, ScrollView } from 'react-native'
 import { db, auth } from '../../firebase/config'
 import AgendaItem from '../../shared/components/AgendaItem';
 import { AuthContext } from "../auth/AuthContext"
+import EmptyDay from "../../shared/components/EmptyDay"
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function DailyView({ navigation, route }) {
     const { user } = useContext(AuthContext)
     const { todayEvents } = route.params
 
-    // TODO: Move this to a sep component
     if (todayEvents === "None") {
         return (
-            <View>
-                <Text>You haven't planned your schedule yet!</Text>
-
-                <TouchableOpacity>
-                    <Text>Add Task</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text>Add Event</Text>
-                </TouchableOpacity>
+            <View style={styles.main}>
+                <EmptyDay nav={navigation} type="daily" />
             </View>
         )
     }
     const dayString = todayEvents[0].edate
 
     return (
-        <View>
-            <Text style={styles.title}>Daily View</Text>
-            {/* TODO: Sort by start time, and show only the events of this day */}
-            <Text>{dayString}</Text>
-            {todayEvents.map((event, index) => {
-                return (
-                    <View>
-                        <Text>{index}</Text>
-                        <AgendaItem
-                            id={event.ename}
-                            estime={event.estime}
-                            eetime={event.eetime}
-                            ename={event.ename}
-                            epriority={event.epriority} />
-                    </View>
-                )
-            })}
-
-            <TouchableOpacity onPress={() => { console.log(dayString) }}>
+        <View style={styles.main}>
+            <ScrollView>
+                {/* TODO: Sort by start time, and show only the events of this day */}
+                {todayEvents.map((event, index) => {
+                    return (
+                        <View key={event.ename}>
+                            <AgendaItem
+                                // id={event.ename}
+                                estime={event.estime}
+                                eetime={event.eetime}
+                                ename={event.ename}
+                                epriority={event.epriority} />
+                        </View>
+                    )
+                })}
+            </ScrollView>
+            {/* <TouchableOpacity onPress={() => { console.log(dayString) }}>
                 <Text>TOUCH!!! </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    main: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: 'center',
+        justifyContent: "center",
+        maxHeight: windowHeight - 40
+    },
     title: {
         fontSize: 30,
         display: "flex",

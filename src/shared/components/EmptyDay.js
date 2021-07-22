@@ -1,27 +1,80 @@
-import React, { useContext } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { db } from '../../firebase/config';
 import { AuthContext } from '../../screens/auth/AuthContext';
+import { isWithinInterval } from 'date-fns';
 
-import { MaterialIcons } from '@expo/vector-icons';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function EmptyItem(props) {
     const { user } = useContext(AuthContext)
-    // const key = props.id
-    // const estime = props.estime
-    // const eetime = props.eetime
-    // const ename = props.ename
-    // const epriority = props.epriority
+    const [weekly, setWeekly] = useState(true)
+    const [toDoItem, setToDoItem] = useState(true)
+    const navigation = props.nav
+    const type = props.type
+    const type2 = props.type2
+
+    useEffect(() => {
+        if (type == "daily") {
+            setWeekly(false)
+        } else {
+            setWeekly(true)
+        }
+
+        if (type2 == "toDoItem") {
+            setToDoItem(true)
+        } else if (type2 == "event") {
+            setToDoItem(false)
+        } else {
+            return
+        }
+    }, [])
+
+    const pressHandler = (screen) => {
+        navigation.navigate(screen)
+    }
 
     return (
         <View style={style.card}>
             <View style={style.container}>
-                <Text style={style.text}>You don't have an event yet!</Text>
+                <Text style={style.title}>You don't have any plans yet!</Text>
+                <View style={style.buttons}>
+                    <View>
 
-            </View>
-        </View>
+                        {weekly ?
+                            <View>
+                                {
+                                    toDoItem ? <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
+                                        < Text style={style.text}>Add a Task</Text>
+                                    </TouchableOpacity> :
+                                        <TouchableOpacity onPress={() => pressHandler("Schedule")}>
+                                            <Text style={style.text}>Add an Event</Text>
+                                        </TouchableOpacity>
+
+                                }
+                            </View>
+
+                            :
+                            <View style={style.buttons}>
+                                <TouchableOpacity onPress={() => pressHandler("Schedule")}>
+                                    <Text style={style.text}>Add an Event</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
+                                    <Text style={style.text}>Add a Task</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        }
+
+
+                    </View>
+
+                </View>
+            </View >
+        </View >
     )
 }
 
@@ -29,18 +82,36 @@ export default function EmptyItem(props) {
 
 const style = StyleSheet.create({
     card: {
-        backgroundColor: "#DCEDFD",
-        padding: 25,
-        margin: 10,
-        borderRadius: 10,
+        backgroundColor: "#fffbee",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 1,
+        borderColor: "thistle",
+        width: windowWidth - 30,
+        height: windowHeight / 4
     },
     container: {
         flexDirection: "column",
         alignItems: "center",
+
+    },
+    title: {
+        color: "#9A76A5",
+        fontSize: 20,
+        textAlign: "center"
+    },
+    buttons: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+
     },
     text: {
         color: "#9A76A5",
         fontSize: 18,
-        textAlign: "center"
-    }
+        margin: 15,
+        fontWeight: "bold",
+    },
+
 })

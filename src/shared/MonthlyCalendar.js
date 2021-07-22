@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { Calendar, CalendarList, Agenda, Arrow } from 'react-native-calendars';
-// import styles from './styles/homestyle'; <= add css
-import { db, auth } from '../firebase/config'
-import format from 'date-fns/format'
-import TimelineCalendar from './TimelineCalendar';
-import { AuthContext } from '../screens/auth/AuthContext';
+import React, { useState } from 'react'
+import { StyleSheet, View, Dimensions } from 'react-native'
+import { Calendar } from 'react-native-calendars';
 
-export default function MonthlyCalendar({ navigation }) {
-    const { user, userData } = useContext(AuthContext)
+import sub from 'date-fns/sub'
 
-    const events = userData["events"]
+const windowWidth = Dimensions.get('window').width;
+
+
+export default function MonthlyCalendar(props) {
+    const events = props.events
+    const navigation = props.nav
+    const minDate = sub(new Date(), { days: 1 })
     const [date, setDate] = useState(new Date())
 
     const edates = events.map((events) => {
@@ -19,7 +19,7 @@ export default function MonthlyCalendar({ navigation }) {
 
     const activeDates = {}
     edates.map((ed) => {
-        activeDates[ed] = { marked: true, dotColor: "purple" }
+        activeDates[ed] = { marked: true, dotColor: "#9A76A5" }
     })
 
     const viewDay = (time) => {
@@ -40,34 +40,11 @@ export default function MonthlyCalendar({ navigation }) {
 
     }
 
-    const viewDay2 = (time) => {
-        dayString = format(time, "yyyy-MM-dd")
-
-        const todayEvents = []
-        events.map((event) => {
-            if (event.edate === dayString) {
-                todayEvents.push(event)
-            }
-        })
-
-        console.log(todayEvents)
-
-        if (todayEvents.length === 0) {
-            navigation.navigate("DailyView", { todayEvents: "None" })
-        } else {
-            navigation.navigate("DailyView", { todayEvents: todayEvents })
-        }
-
-
-    }
-
     return (
         <View style={styles.container}>
-            {/* <Text style={styles.title}>Monthly Calendar Component</Text> */}
-            <TimelineCalendar date={date} onChange={(newDate) => viewDay2(newDate)} events={events} />
             <View>
                 <Calendar
-                    minDate={'2021-07-14'}
+                    minDate={minDate}
                     onDayPress={(time) => viewDay(time)}
                     monthFormat={'MMMM yyyy'}
                     onMonthChange={(month) => { console.log('month changed', month) }}
@@ -80,30 +57,42 @@ export default function MonthlyCalendar({ navigation }) {
 
                     markingType={'period'}
                     markedDates={activeDates}
+
+                    theme={{
+                        backgroundColor: '#fffbee',
+                        calendarBackground: '#fffbee',
+                        textSectionTitleColor: '#9A76A5',
+                        textSectionTitleDisabledColor: '#CDC5E3',
+                        selectedDayBackgroundColor: '#00adf5',
+                        selectedDayTextColor: '#9A76A5',
+                        todayTextColor: '#9A76A5',
+                        dayTextColor: '#2d4150',
+                        textDisabledColor: '#CDC5E3',
+                        dotColor: '#00adf5',
+                        selectedDotColor: '#ffffff',
+                        arrowColor: '#C5CDE3',
+                        disabledArrowColor: '#d9e1e8',
+                        monthTextColor: '#9A76A5',
+                        indicatorColor: '#9A76A5',
+                        textDayFontFamily: 'monospace',
+                        textMonthFontFamily: 'monospace',
+                        textDayHeaderFontFamily: 'monospace',
+                        textDayFontWeight: '300',
+                        textMonthFontWeight: 'bold',
+                        textDayHeaderFontWeight: '400',
+                        textDayFontSize: 16,
+                        textMonthFontSize: 20,
+                        textDayHeaderFontSize: 16,
+                    }}
                 />
             </View>
-            {/* Console.logs are mainly to check if im getting the object i want */}
-            {/* <TouchableOpacity onPress={() => console.log(time)}>
-                <Text>
-                    HELLO???
-                </Text>
-            </TouchableOpacity> */}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor: "gray",
-        padding: 20,
-    },
-    title: {
-        fontSize: 20,
-        display: "flex",
-        alignSelf: "center",
-        paddingBottom: 10
-    },
-    calendar: {
-        width: "auto"
+        width: windowWidth - 30,
+        marginBottom: 20,
     }
 })
