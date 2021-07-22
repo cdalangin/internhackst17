@@ -4,13 +4,17 @@ import { db, auth } from '../../firebase/config'
 import AgendaItem from '../../shared/components/AgendaItem';
 import { AuthContext } from "../auth/AuthContext"
 import EmptyDay from "../../shared/components/EmptyDay"
+import format from 'date-fns/format'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+// Show stuff as a daily calendar view then add the items there
+
+
 export default function DailyView({ navigation, route }) {
     const { user } = useContext(AuthContext)
-    const { todayEvents } = route.params
+    let { todayEvents } = route.params
 
     if (todayEvents === "None") {
         return (
@@ -19,12 +23,10 @@ export default function DailyView({ navigation, route }) {
             </View>
         )
     }
-    const dayString = todayEvents[0].edate
 
     return (
         <View style={styles.main}>
             <ScrollView>
-                {/* TODO: Sort by start time, and show only the events of this day */}
                 {todayEvents.map((event, index) => {
                     return (
                         <View key={event.ename}>
@@ -38,7 +40,7 @@ export default function DailyView({ navigation, route }) {
                     )
                 })}
             </ScrollView>
-            {/* <TouchableOpacity onPress={() => { console.log(dayString) }}>
+            {/* <TouchableOpacity onPress={() => { console.log("test") }}>
                 <Text>TOUCH!!! </Text>
             </TouchableOpacity> */}
 
