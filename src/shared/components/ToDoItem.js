@@ -13,6 +13,7 @@ const windowHeight = Dimensions.get('window').height;
 export default function ToDoListItem(props) {
     const { user } = useContext(AuthContext)
     const task = props.task
+    // const activeDate = props.activeDate
     const [done, setDone] = useState(false)
 
     // const remove = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Dimensions } from 'react-native'
 import { Calendar } from 'react-native-calendars';
-
+import format from 'date-fns/format'
 import sub from 'date-fns/sub'
 
 const windowWidth = Dimensions.get('window').width;
@@ -23,7 +23,9 @@ export default function MonthlyCalendar(props) {
     })
 
     const viewDay = (time) => {
-        const dayString = time.dateString
+        // const dayString = time.dateString
+
+        const dayString = format(time, "MMMM dd, yyyy")
 
         const todayEvents = []
         events.map((event) => {
