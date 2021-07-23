@@ -3,18 +3,20 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-nati
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { db } from '../../firebase/config';
-import { AuthContext } from '../../screens/auth/AuthContext';
+import format from 'date-fns/format'
 
-import { MaterialIcons } from '@expo/vector-icons';
+import fromUnixTime from 'date-fns/fromUnixTime'
+import { AuthContext } from '../../screens/auth/AuthContext';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function AgendaItem(props) {
     const { user } = useContext(AuthContext)
-    const key = props.id
-    const estime = props.estime
-    const eetime = props.eetime
+
+    const estime = format(fromUnixTime(props.estime), "h:mm a")
+    const eetime = format(fromUnixTime(props.eetime), "h:mm a")
+
     const ename = props.ename
     const epriority = props.epriority
 

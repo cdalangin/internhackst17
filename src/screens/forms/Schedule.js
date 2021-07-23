@@ -10,16 +10,20 @@ import 'firebase/firestore';
 import { db, auth } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext';
 
+// 2021-07-22T01:56:12.691Z
+
 export default function Schedule({ navigation }) {
     const { user } = useContext(AuthContext)
     const initialState = {
         "ename": "",
         "edate": "Event Date",
         "eday": "Event Day",
-        "estime": "Event Start Time",
-        "eetime": "Event End Time",
+        "estime": "",
+        "eetime": "",
         "epriority": ""
     }
+    const [sButton, setSButton] = useState("Event Start Time")
+    const [eButton, setEButton] = useState("Event End Time")
 
     let months = {
         Jan: "01",
@@ -59,8 +63,6 @@ export default function Schedule({ navigation }) {
         const format_date = date.toDateString() + ""
         const split_date = format_date.split(' ')
 
-        // const format_date = format(date, 'yyyy-mm-dd').toString()
-
         const day = split_date[0]
         const strMonth = split_date[1]
 
@@ -73,6 +75,7 @@ export default function Schedule({ navigation }) {
 
     // Formatting Time
 
+    // Todo but not important: use format package instead
     const formatTime = (time) => {
         const hour = time.getHours().toString()
         const minute = time.getMinutes().toString()
@@ -94,9 +97,11 @@ export default function Schedule({ navigation }) {
 
     const confirmStartTime = (stime) => {
         const format_time = formatTime(stime);
+        setSButton(format_time)
+
         console.warn("A start time has been picked: ", stime);
 
-        setInfoState(prevState => ({ ...prevState, "estime": format_time }))
+        setInfoState(prevState => ({ ...prevState, "estime": stime }))
         hideStartTimePicker();
     };
 
@@ -112,9 +117,10 @@ export default function Schedule({ navigation }) {
 
     const confirmEndTime = (etime) => {
         const format_time = formatTime(etime);
+        setEButton(format_time)
         console.warn("A start time has been picked: ", format_time);
 
-        setInfoState(prevState => ({ ...prevState, "eetime": format_time }))
+        setInfoState(prevState => ({ ...prevState, "eetime": etime }))
         hideEndTimePicker();
     };
 
@@ -122,18 +128,17 @@ export default function Schedule({ navigation }) {
 
     const clearState = () => {
         setInfoState({ ...initialState });
+        setSButton("Event Start Time")
+        setEButton("Event End Time")
     };
 
-    // "ename": "",
-    //     "edate": "Event Date",
-    //     "eday": "Event Day",
-    //     "estime": "Event Start Time",
-    //     "eetime": "Event End Time",
-    //     "epriority": ""
     const submitEvent = () => {
         const eventObj = infoState
 
-        if ((eventObj["ename"] == "") || (eventObj["eday"] === "Event Date") || (eventObj["estime"] === "Event Start Time") || (eventObj["eetime"] === "Event End Time") || (eventObj["epriority"] === "")) {
+        if ((eventObj["ename"] == "") || (eventObj["eday"] === "Event Date") ||
+            (eventObj["estime"] === "") || (eventObj["eetime"] === "") ||
+            (eventObj["epriority"] === "") || (sButton == "Event Start Time") ||
+            (eButton == "Event Emd Time")) {
             alert("Error: Please complete all fields.")
             clearState()
         } else {
@@ -147,7 +152,6 @@ export default function Schedule({ navigation }) {
     }
 
     const nextScreen = () => {
-        // TODO: If new user, go to input todolist, else, go back to main page
         navigation.navigate("Weekly View", { screen: "HomeWeekly" })
     }
 
@@ -172,7 +176,7 @@ export default function Schedule({ navigation }) {
                 <Text></Text>
             </View>
             <View>
-                <Button title={infoState.estime} onPress={showStartTimePicker} />
+                <Button title={sButton} onPress={showStartTimePicker} />
                 <DateTimePickerModal
                     isVisible={isStartTimePickerVisible}
                     mode="time"
@@ -182,7 +186,7 @@ export default function Schedule({ navigation }) {
                 <Text></Text>
             </View>
             <View>
-                <Button title={infoState.eetime} onPress={showEndTimePicker} />
+                <Button title={eButton} onPress={showEndTimePicker} />
                 <DateTimePickerModal
                     isVisible={isEndTimePickerVisible}
                     mode="time"
@@ -211,12 +215,6 @@ export default function Schedule({ navigation }) {
                 <Button title="Next" onPress={nextScreen} />
             </View>
 
-
-            {/* TODO: Make an event component so that added events will compile here 
-                Maybe assign unique numbers to events so that when you delete it knows which one to delete*/}
-            <View>
-                {/* <Events /> */}
-            </View>
         </ScrollView>
     )
 }

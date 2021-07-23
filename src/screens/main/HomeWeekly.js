@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, View, ScrollView, SafeAreaView, Dimensions, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, View, ScrollView, SafeAreaView, Dimensions, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native'
 import { format } from 'date-fns';
 import { db } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext'
@@ -56,7 +56,9 @@ export default function HomeWeekly({ navigation }) {
         })
         console.log(currentEvents)
         if (todayEvents.length > 0) {
-            setCurrentEvents(todayEvents)
+            setCurrentEvents(todayEvents.sort((x, y) => {
+                return x["estime"] - y["estime"]
+            }))
             setViewDay(false)
         } else {
             setCurrentEvents("None")
@@ -76,7 +78,6 @@ export default function HomeWeekly({ navigation }) {
             <TimelineCalendar date={date} onChange={(newDate) => dateChangeHandler(newDate)} events={events} />
             <View style={style.main}>
                 {/* <ScrollView> */}
-
                 <TouchableWithoutFeedback onPress={() => onPressDay()} >
                     <View>
                         <ScrollView style={style.agendalist}>
