@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { FlatList, Keyboard, Text, TextInput, Button, TouchableOpacity, View, ScrollView } from 'react-native'
-import ToDoList from '../../shared/ToDoList'
+import format from 'date-fns/format'
+import fromUnixTime from 'date-fns/fromUnixTime'
+import { Picker } from '@react-native-picker/picker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import styles from './formstyle';
 
 import firebase from 'firebase/app';
@@ -9,11 +12,39 @@ import { db, auth } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext';
 
 export default function InputToDoList({ navigation }) {
-    const [toDoItem, setToDoItem] = useState("")
-    const { user } = useContext(AuthContext)
+    const { user, activeDate } = useContext(AuthContext)
+    const formatDate = format(activeDate, "MMMM dd, yyyy")
+    const initialState = {
+        "tname": "",
+        "isDone": false,
+        "toComp": activeDate,
+        "whenDone": ""
+    }
+
+    const [displayDate, setDisplayDate] = useState(formatDate)
+    const [toDoItem, setToDoItem] = useState(initialState)
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    // TODO: Change date format to YYYY-MM-DD
+    const confirmDate = (date) => {
+        const format_date = format(date, "MMMM dd, yyyy")
+
+        setDisplayDate(format_date)
+        setToDoItem(prevState => ({ ...prevState, "toComp": format_date }))
+        hideDatePicker();
+    };
+
 
     const submitTask = () => {
-        if (toDoItem == "") {
+        if (toDoItem["tname"] == "") {
             alert("Please input a task.")
         } else {
             var userDoc = db.collection('users').doc(user.uid)
@@ -21,13 +52,12 @@ export default function InputToDoList({ navigation }) {
             userDoc.update({
                 tasks: firebase.firestore.FieldValue.arrayUnion(toDoItem)
             })
-            setToDoItem("")
+            setToDoItem(initialState)
         }
 
     }
 
     const nextScreen = () => {
-        // TODO: If new user, go to input todolist, else, go back to main page
         navigation.navigate("Weekly View", { screen: "HomeWeekly" })
     }
 
@@ -37,10 +67,23 @@ export default function InputToDoList({ navigation }) {
             <Text style={styles.title}>Input To Do List</Text>
             <TextInput
                 style={styles.input}
-                onChangeText={(text) => setToDoItem(text)}
-                value={toDoItem}
+                onChangeText={(text) => setToDoItem(prevState => ({ ...prevState, "tname": text }))}
+                value={toDoItem["tname"]}
                 placeholder="Name of Task"
             />
+
+            <View>
+                <Text>Task Date: {displayDate}</Text>
+                <Button title="Change" onPress={showDatePicker} />
+                <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="date"
+                    minimumDate={new Date()}
+                    onConfirm={confirmDate}
+                    onCancel={hideDatePicker}
+                />
+
+            </View>
 
             <View>
                 <Button title="Add Task" onPress={submitTask} />

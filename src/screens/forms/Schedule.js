@@ -60,16 +60,17 @@ export default function Schedule({ navigation }) {
 
     // TODO: Change date format to YYYY-MM-DD
     const confirmDate = (date) => {
-        const format_date = date.toDateString() + ""
-        const split_date = format_date.split(' ')
+        const format_date = format(date, "MMMM dd, yyyy")
+        const getDay = date.toDateString() + ""
+        const split_date = getDay.split(' ')
 
         const day = split_date[0]
-        const strMonth = split_date[1]
+        // const strMonth = split_date[1]
 
-        const string_date = split_date[3] + "-" + months[strMonth] + "-" + split_date[2]
-        console.warn("A date has been picked: ", string_date);
+        // const string_date = split_date[3] + "-" + months[strMonth] + "-" + split_date[2]
+        // console.warn("A date has been picked: ", string_date);
 
-        setInfoState(prevState => ({ ...prevState, "edate": string_date, "eday": day }))
+        setInfoState(prevState => ({ ...prevState, "edate": format_date, "eday": day }))
         hideDatePicker();
     };
 

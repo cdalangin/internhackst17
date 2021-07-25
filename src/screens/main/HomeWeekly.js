@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, View, ScrollView, SafeAreaView, Dimensions, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native'
-import { format } from 'date-fns';
+import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import { db } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext'
 
@@ -14,11 +14,12 @@ import QuoteBlock from '../../shared/components/QuoteBlock';
 const windowHeight = Dimensions.get('window').height;
 
 export default function HomeWeekly({ navigation }) {
-    const { user } = useContext(AuthContext)
+    const { user, activeDate, setActiveDate } = useContext(AuthContext)
     const [events, setEvents] = useState({})
     const [tasks, setTasks] = useState([])
     const [date, setDate] = useState(new Date())
     const [currentEvents, setCurrentEvents] = useState([]); // need initial state to be current date
+    const [currentTasks, setCurrentTasks] = useState([])
     const [viewDay, setViewDay] = useState(true);
     const [toDoItem, setToDoItem] = useState(true)
 
@@ -27,12 +28,7 @@ export default function HomeWeekly({ navigation }) {
         userRef.onSnapshot((doc) => {
             if (doc.exists) {
                 const taskList = doc.data()["tasks"]
-                if (taskList.length === 0) {
-                    setToDoItem(true)
-                } else {
-                    setTasks(taskList)
-                    setToDoItem(false)
-                }
+                setTasks(taskList)
 
                 const eventsList = doc.data()["events"]
                 setEvents(eventsList)
@@ -46,15 +42,18 @@ export default function HomeWeekly({ navigation }) {
 
     const dateChangeHandler = (newDate) => {
         setDate(newDate)
-        const dayString = format(newDate, "yyyy-MM-dd")
+        setActiveDate(newDate)
 
+        const dayString = format(newDate, "MMMM dd, yyyy")
+
+        // Event Sorting
         const todayEvents = []
         events.map((event) => {
             if (event.edate === dayString) {
                 todayEvents.push(event)
             }
         })
-        console.log(currentEvents)
+
         if (todayEvents.length > 0) {
             setCurrentEvents(todayEvents.sort((x, y) => {
                 return x["estime"] - y["estime"]
@@ -63,6 +62,22 @@ export default function HomeWeekly({ navigation }) {
         } else {
             setCurrentEvents("None")
             setViewDay(true)
+        }
+
+        // Task Sorting
+        const todayTasks = []
+        tasks.map((task) => {
+            if (task.toComp == dayString) {
+                todayTasks.push(task)
+            }
+        })
+
+        if (todayTasks.length > 0) {
+            setCurrentTasks(todayTasks);
+            setToDoItem(false)
+        } else {
+            setCurrentTasks("None")
+            setToDoItem(true)
         }
     }
 
@@ -73,10 +88,20 @@ export default function HomeWeekly({ navigation }) {
             navigation.navigate("DailyView", { todayEvents: currentEvents })
         }
     }
+
+    const onPressToDo = () => {
+        if (currentTasks.length == 0) {
+            navigation.navigate("ToDoList", { todayTasks: "None" })
+        } else {
+            navigation.navigate("ToDoList", { todayTasks: currentTasks })
+        }
+    }
+
     return (
         <SafeAreaView>
             <TimelineCalendar date={date} onChange={(newDate) => dateChangeHandler(newDate)} events={events} />
             <View style={style.main}>
+
                 {/* <ScrollView> */}
                 <TouchableWithoutFeedback onPress={() => onPressDay()} >
                     <View>
@@ -102,29 +127,29 @@ export default function HomeWeekly({ navigation }) {
                 </TouchableWithoutFeedback>
 
                 {/* Removed because I didn't sort tasks by date yet */}
-                {/* <TouchableWithoutFeedback onPress={() => onPressDay()} >
-                    <View> */}
-                <ScrollView style={style.agendalist}>
-                    {toDoItem ? <EmptyDay nav={navigation} type="weekly" type2="toDoItem" /> :
-                        <View>
-                            {tasks.map((task) => {
-                                return (
-                                    <>
-                                        <View key={task}>
-                                            <ToDoListItem
-                                                key={task}
-                                                task={task} />
-                                        </View>
-                                    </>
-                                )
+                <TouchableWithoutFeedback onPress={() => onPressToDo()} >
+                    <View>
+                        <ScrollView style={style.agendalist}>
+                            {toDoItem ? <EmptyDay nav={navigation} type="weekly" type2="toDoItem" /> :
+                                <View>
+                                    {currentTasks.map((task) => {
+                                        return (
+                                            <>
+                                                <View key={task}>
+                                                    <ToDoListItem
+                                                        key={task}
+                                                        task={task.tname} />
+                                                </View>
+                                            </>
+                                        )
 
+                                    }
+                                    )}
+                                </View>
                             }
-                            )}
-                        </View>
-                    }
-                </ScrollView>
-                {/* </View>
-                </TouchableWithoutFeedback> */}
+                        </ScrollView>
+                    </View>
+                </TouchableWithoutFeedback>
 
                 <QuoteBlock />
 

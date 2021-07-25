@@ -7,12 +7,15 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [activeDate, setActiveDate] = useState(new Date())
 
     return (
         <AuthContext.Provider
             value={{
                 user,
                 setUser,
+                activeDate,
+                setActiveDate,
                 // userData,
                 login: (email, password) => {
                     auth.signInWithEmailAndPassword(email, password)
@@ -50,7 +53,7 @@ export const AuthProvider = ({ children }) => {
                                     id: uid,
                                     email,
                                     fullName,
-                                    joined: format(new Date(), "MMM dd, yyyy"),
+                                    joined: format(new Date(), "MMMM dd, yyyy"),
                                     tasks: [],
                                     events: []
                                 };
