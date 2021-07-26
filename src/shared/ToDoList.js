@@ -68,7 +68,7 @@ export default function ToDoList(props) {
         <SafeAreaView style={styles.main}>
             <ScrollView>
                 {toDoItem ?
-                    <EmptyDay nav={navigation} type="daily" />
+                    <EmptyDay nav={navigation} type="todo" />
                     :
                     <View>
                         {tasks.map((task) => {

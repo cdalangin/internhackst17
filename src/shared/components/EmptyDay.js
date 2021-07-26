@@ -15,22 +15,22 @@ export default function EmptyItem(props) {
     const [toDoItem, setToDoItem] = useState(true)
     const navigation = props.nav
     const type = props.type
-    const type2 = props.type2
+    // const type2 = props.type2
 
     useEffect(() => {
-        if (type == "daily") {
-            setWeekly(false)
-        } else {
-            setWeekly(true)
-        }
-
-        if (type2 == "toDoItem") {
-            setToDoItem(true)
-        } else if (type2 == "event") {
+        if (type == "event") {
             setToDoItem(false)
         } else {
-            return
+            setToDoItem(true)
         }
+
+        // if (type2 == "toDoItem") {
+        //     setToDoItem(true)
+        // } else if (type2 == "event") {
+        //     setToDoItem(false)
+        // } else {
+        //     return
+        // }
     }, [])
 
     const pressHandler = (screen) => {
@@ -44,18 +44,18 @@ export default function EmptyItem(props) {
                 <View style={style.buttons}>
                     <View>
 
-                        {weekly ?
-                            <View>
-                                {
-                                    toDoItem ? <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
-                                        < Text style={style.text}>Add a Task</Text>
-                                    </TouchableOpacity> :
-                                        <TouchableOpacity onPress={() => pressHandler("Schedule")}>
-                                            <Text style={style.text}>Add an Event</Text>
-                                        </TouchableOpacity>
+                        {/* {weekly ?
+                            <View> */}
+                        {
+                            toDoItem ? <TouchableOpacity onPress={() => pressHandler("InputToDoList")}>
+                                < Text style={style.text}>Add a Task</Text>
+                            </TouchableOpacity> :
+                                <TouchableOpacity onPress={() => pressHandler("Schedule")}>
+                                    <Text style={style.text}>Add an Event</Text>
+                                </TouchableOpacity>
 
-                                }
-                            </View>
+                        }
+                        {/* </View>
 
                             :
                             <View style={style.buttons}>
@@ -67,7 +67,7 @@ export default function EmptyItem(props) {
                                 </TouchableOpacity>
                             </View>
 
-                        }
+                        } */}
 
 
                     </View>

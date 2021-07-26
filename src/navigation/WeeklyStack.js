@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import HomeWeekly from '../screens/main/HomeWeekly';
 import MonthlyCalendar from '../shared/MonthlyCalendar';
-import DailyView from "../screens/main/DailyView"
+import Events from '../shared/Events';
 import ToDoList from "../shared/ToDoList"
 import HomeMonthly from '../screens/main/HomeMonthly';
 import Mood from "../screens/forms/Mood"
@@ -38,7 +38,7 @@ export default function WeeklyStack({ navigation }) {
             />
             <Stack.Screen name="MonthlyCalendar" component={MonthlyCalendar} />
             <Stack.Screen name="ToDoList" component={ToDoList} />
-            <Stack.Screen name="DailyView" component={DailyView} />
+            <Stack.Screen name="Events" component={Events} />
             <Stack.Screen name="HomeMonthly" component={HomeMonthly} />
 
             <Stack.Screen name="InputToDoList" component={InputToDoList} />

@@ -12,7 +12,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function HomeMonthly({ navigation }) {
-    const { user, setEventCT, setTaskCT } = useContext(AuthContext)
+    const { user, activeDate } = useContext(AuthContext)
     const [events, setEvents] = useState([])
     const [date, setDate] = useState(new Date())
     const pressHandler = (screen) => {
@@ -47,7 +47,7 @@ export default function HomeMonthly({ navigation }) {
 
     return (
         <SafeAreaView >
-            <TimelineCalendar date={date} onChange={(newDate) => viewDay(newDate)} events={events} />
+            <TimelineCalendar date={activeDate} onChange={(newDate) => viewDay(newDate)} />
             <View style={style.main}>
                 <MonthlyCalendar events={events} nav={navigation} />
                 <QuoteBlock />

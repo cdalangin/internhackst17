@@ -8,10 +8,12 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 export default function Profile({ navigation }) {
-    const { user, logout, eventCT, taskCT } = useContext(AuthContext)
+    const { user, logout } = useContext(AuthContext)
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [join, setJoin] = useState("");
+    const [eventCT, setEventCT] = useState("");
+    const [taskCT, setTaskCT] = useState("");
 
     useEffect(() => {
         const userRef = db.collection("users").doc(user.uid)
@@ -22,11 +24,14 @@ export default function Profile({ navigation }) {
 
                 const time = doc.data()["joined"]
                 setJoin(time)
+
+                setEventCT(doc.data()["eventCT"])
+                setTaskCT(doc.data()["taskCT"])
             } else {
                 console.log("No such document!")
             }
         })
-    }, [])
+    }, [eventCT, taskCT])
 
     // TODO: Don't hardcode stats
     // TODO: Add image
