@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -7,29 +7,40 @@ import { AuthContext } from '../../screens/auth/AuthContext';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+// import { useEffect } from 'react/cjs/react.development';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function ToDoListItem(props) {
     const { user } = useContext(AuthContext)
+    const id = props.id
     const task = props.task
-    // const activeDate = props.activeDate
-    const [done, setDone] = useState(false)
+    const isDone = props.isDone
+    const [done, setDone] = useState(isDone)
+    const onChange = props.onChange
 
-    // const remove = () => {
-    //     const userRef = db.collection("users").doc(user.uid)
+    // useEffect(() => {
 
-    //     userRef.update({
-    //         tasks: firebase.firestore.FieldValue.delete(task)
-    //     })
-    // }
+    // })
+
+    const taskHandler = () => {
+        setDone(!done)
+        onChange(id)
+        // const userRef = db.collection("users").doc(user.uid)
+
+        // userRef.update({
+        //     "age": 13,
+        //     "favorites.color": "Red"
+        // });
+
+    }
 
     return (
         <View style={style.card}>
             <View style={style.container}>
 
                 <View>
-                    <TouchableOpacity onPress={() => { setDone(!done) }}>
+                    <TouchableOpacity onPress={() => taskHandler()}>
                         {
                             done ? <Ionicons name="checkbox" size={30} color="thistle" />
                                 :

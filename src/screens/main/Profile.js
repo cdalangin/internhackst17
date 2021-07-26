@@ -8,7 +8,7 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 export default function Profile({ navigation }) {
-    const { user, logout } = useContext(AuthContext)
+    const { user, logout, eventCT, taskCT } = useContext(AuthContext)
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [join, setJoin] = useState("");
@@ -44,12 +44,12 @@ export default function Profile({ navigation }) {
 
             <View style={styles.stats}>
                 <View style={styles.statsbox}>
-                    <Text style={styles.statnum}>25</Text>
+                    <Text style={styles.statnum}>{taskCT}</Text>
                     <Text style={styles.stattext}>tasks completed</Text>
                 </View>
 
                 <View style={styles.statsbox}>
-                    <Text style={styles.statnum}>10</Text>
+                    <Text style={styles.statnum}>{eventCT}</Text>
                     <Text style={styles.stattext}>events attended</Text>
                 </View>
             </View>

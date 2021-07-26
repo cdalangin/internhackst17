@@ -12,7 +12,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function HomeMonthly({ navigation }) {
-    const { user } = useContext(AuthContext)
+    const { user, setEventCT, setTaskCT } = useContext(AuthContext)
     const [events, setEvents] = useState([])
     const [date, setDate] = useState(new Date())
     const pressHandler = (screen) => {
@@ -20,18 +20,7 @@ export default function HomeMonthly({ navigation }) {
     }
 
     useEffect(() => {
-        const userRef = db.collection("users").doc(user.uid)
-        userRef.onSnapshot((doc) => {
-            if (doc.exists) {
-                // const taskList = doc.data()["tasks"]
-                // setTasks(taskList)
 
-                const eventsList = doc.data()["events"]
-                setEvents(eventsList)
-            } else {
-                console.log("No such document!")
-            }
-        })
     }, [events])
 
     const viewDay = (time) => {

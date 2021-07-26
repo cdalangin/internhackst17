@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, TouchableOpacity, View, Button } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import format from 'date-fns/format'
