@@ -1,45 +1,33 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, View, Dimensions } from 'react-native'
 import { Calendar } from 'react-native-calendars';
-import format from 'date-fns/format'
-import sub from 'date-fns/sub'
+import { AuthContext } from '../screens/auth/AuthContext';
+import { add, toDate, sub } from 'date-fns'
 
 const windowWidth = Dimensions.get('window').width;
 
-
 export default function MonthlyCalendar(props) {
-    const events = props.events
+    const { setActiveDate } = useContext(AuthContext);
+    // const events = props.events
     const navigation = props.nav
     const minDate = sub(new Date(), { days: 1 })
-    const [date, setDate] = useState(new Date())
 
-    const edates = events.map((events) => {
-        return events.edate
-    })
+    // const edates = events.map((events) => {
+    //     return events.edate
+    // })
 
-    const activeDates = {}
-    edates.map((ed) => {
-        activeDates[ed] = { marked: true, dotColor: "#9A76A5" }
-    })
+    // const activeDates = {}
+    // edates.map((ed) => {
+    //     activeDates[ed] = { marked: true, dotColor: "#9A76A5" }
+    // })
 
     const viewDay = (time) => {
-        // const dayString = time.dateString
+        const formatTime = toDate(time.timestamp)
 
-        const dayString = format(time, "MMMM dd, yyyy")
+        const dayString = add(formatTime, { days: 1 })
 
-        const todayEvents = []
-        events.map((event) => {
-            if (event.edate === dayString) {
-                todayEvents.push(event)
-            }
-        })
-
-        if (todayEvents.length === 0) {
-            navigation.navigate("DailyView", { todayEvents: "None" })
-        } else {
-            navigation.navigate("DailyView", { todayEvents: todayEvents })
-        }
-
+        navigation.navigate("DailyView", { currentTime: dayString })
+        setActiveDate(dayString)
     }
 
     return (
@@ -55,10 +43,9 @@ export default function MonthlyCalendar(props) {
                     onPressArrowRight={addMonth => addMonth()}
                     disableAllTouchEventsForDisabledDays={true}
                     enableSwipeMonths={true}
-                    style={styles.calendar}
 
-                    markingType={'period'}
-                    markedDates={activeDates}
+                    // markingType={'period'}
+                    // markedDates={activeDates}
 
                     theme={{
                         backgroundColor: '#fffbee',

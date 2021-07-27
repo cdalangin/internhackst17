@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, TouchableOpacity, View, ScrollView, Text, Dimensions } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, ScrollView, Text, Dimensions, SafeAreaView } from 'react-native'
 import { db, auth } from '../../firebase/config'
 import { AuthContext } from "../auth/AuthContext"
 
@@ -12,6 +12,8 @@ export default function Profile({ navigation }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [join, setJoin] = useState("");
+    const [eventCT, setEventCT] = useState("");
+    const [taskCT, setTaskCT] = useState("");
 
     useEffect(() => {
         const userRef = db.collection("users").doc(user.uid)
@@ -22,45 +24,49 @@ export default function Profile({ navigation }) {
 
                 const time = doc.data()["joined"]
                 setJoin(time)
+
+                setEventCT(doc.data()["eventCT"])
+                setTaskCT(doc.data()["taskCT"])
             } else {
                 console.log("No such document!")
             }
         })
-    }, [])
+    }, [eventCT, taskCT])
 
-    // TODO: Don't hardcode stats
     // TODO: Add image
 
     return (
-        <ScrollView contentContainerStyle={styles.main}>
-            <View style={styles.bio}>
-                <View style={styles.picture}></View>
-                <View>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.email}>{email}</Text>
-                    <Text style={styles.join}>Staying organized since {join}</Text>
-                </View>
-            </View>
-
-            <View style={styles.stats}>
-                <View style={styles.statsbox}>
-                    <Text style={styles.statnum}>25</Text>
-                    <Text style={styles.stattext}>tasks completed</Text>
+        <SafeAreaView>
+            <ScrollView contentContainerStyle={styles.main}>
+                <View style={styles.bio}>
+                    <View style={styles.picture}></View>
+                    <View>
+                        <Text style={styles.name}>{name}</Text>
+                        <Text style={styles.email}>{email}</Text>
+                        <Text style={styles.join}>Staying organized since {join}</Text>
+                    </View>
                 </View>
 
-                <View style={styles.statsbox}>
-                    <Text style={styles.statnum}>10</Text>
-                    <Text style={styles.stattext}>events attended</Text>
-                </View>
-            </View>
+                <View style={styles.stats}>
+                    <View style={styles.statsbox}>
+                        <Text style={styles.statnum}>{taskCT}</Text>
+                        <Text style={styles.stattext}>tasks completed</Text>
+                    </View>
 
-            <View style={styles.logoutView}>
-                <TouchableOpacity onPress={() => logout(navigation)} style={styles.logout}>
-                    <Ionicons name="log-out-outline" size={30} color="thistle" />
-                    <Text style={styles.logtext}>LogOut</Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView >
+                    <View style={styles.statsbox}>
+                        <Text style={styles.statnum}>{eventCT}</Text>
+                        <Text style={styles.stattext}>events scheduled</Text>
+                    </View>
+                </View>
+
+                <View style={styles.logoutView}>
+                    <TouchableOpacity onPress={() => logout(navigation)} style={styles.logout}>
+                        <Ionicons name="log-out-outline" size={30} color="thistle" />
+                        <Text style={styles.logtext}>LogOut</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView >
+        </SafeAreaView>
     )
 }
 

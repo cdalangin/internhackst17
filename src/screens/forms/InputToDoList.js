@@ -1,23 +1,41 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, Keyboard, Text, TextInput, Button, TouchableOpacity, View, ScrollView } from 'react-native'
+import { Text, TextInput, Button, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import format from 'date-fns/format'
-import fromUnixTime from 'date-fns/fromUnixTime'
-import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import styles from './formstyle';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { db, auth } from '../../firebase/config'
+import { db } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext';
 
 export default function InputToDoList({ navigation }) {
     const { user, activeDate } = useContext(AuthContext)
     const formatDate = format(activeDate, "MMMM dd, yyyy")
+
+    const [taskCT, setTaskCT] = useState(0);
+
+    useEffect(() => {
+        const userRef = db.collection("users").doc(user.uid)
+
+        userRef.onSnapshot((doc) => {
+            if (doc.exists) {
+                const tcount = doc.data()["taskCT"]
+                setTaskCT(tcount)
+
+            } else {
+                console.log("No such document!")
+            }
+        })
+
+    }, [])
+
     const initialState = {
+        "key": "task" + taskCT,
         "tname": "",
         "isDone": false,
-        "toComp": activeDate,
+        "toComp": format(activeDate, "MMMM dd, yyyy"),
         "whenDone": ""
     }
 
@@ -33,12 +51,11 @@ export default function InputToDoList({ navigation }) {
         setDatePickerVisibility(false);
     };
 
-    // TODO: Change date format to YYYY-MM-DD
     const confirmDate = (date) => {
         const format_date = format(date, "MMMM dd, yyyy")
 
         setDisplayDate(format_date)
-        setToDoItem(prevState => ({ ...prevState, "toComp": format_date }))
+        setToDoItem(prevState => ({ ...prevState, "toComp": format_date, "key": "task" + taskCT }))
         hideDatePicker();
     };
 
@@ -50,7 +67,8 @@ export default function InputToDoList({ navigation }) {
             var userDoc = db.collection('users').doc(user.uid)
 
             userDoc.update({
-                tasks: firebase.firestore.FieldValue.arrayUnion(toDoItem)
+                tasks: firebase.firestore.FieldValue.arrayUnion(toDoItem),
+                taskCT: firebase.firestore.FieldValue.increment(1)
             })
             setToDoItem(initialState)
         }
@@ -63,7 +81,7 @@ export default function InputToDoList({ navigation }) {
 
 
     return (
-        <ScrollView style={styles.container}>
+        <KeyboardAwareScrollView style={styles.container}>
             <Text style={styles.title}>Input To Do List</Text>
             <TextInput
                 style={styles.input}
@@ -92,6 +110,6 @@ export default function InputToDoList({ navigation }) {
             <View>
                 <Button title="Next" onPress={nextScreen} />
             </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
     )
 }

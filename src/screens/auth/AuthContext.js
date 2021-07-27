@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
                 setUser,
                 activeDate,
                 setActiveDate,
-                // userData,
                 login: (email, password) => {
                     auth.signInWithEmailAndPassword(email, password)
                     // .then((res) => {
@@ -55,7 +54,9 @@ export const AuthProvider = ({ children }) => {
                                     fullName,
                                     joined: format(new Date(), "MMMM dd, yyyy"),
                                     tasks: [],
-                                    events: []
+                                    events: [],
+                                    taskCT: 0,
+                                    eventCT: 0
                                 };
                                 const usersRef = db.collection('users')
                                 usersRef

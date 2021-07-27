@@ -1,50 +1,93 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, SafeAreaView, View, Dimensions, ScrollView } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-// import styles from '../screens/main/styles/homestyle';
-import { db, auth } from '../firebase/config'
+import { format } from 'date-fns';
+import { db } from '../firebase/config'
+import 'firebase/firestore';
 import ToDoListItem from './components/ToDoItem'
 
 import { AuthContext } from '../screens/auth/AuthContext'
 import EmptyDay from './components/EmptyDay';
 
-const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default function ToDoList({ navigation, route }) {
+export default function ToDoList(props) {
     const { user } = useContext(AuthContext)
-    const { todayTasks } = route.params
-    const [tasks, setTasks] = useState([])
+    const navigation = props.nav
+    const currentTime = props.currentTime
+    let userRef = db.collection("users").doc(user.uid)
+    const [tasks, setTasks] = useState([]); // specific tasks for that day
+    const dayString = format(currentTime, "MMMM dd, yyyy")
+    const [updatedTasks, setUpdatedTasks] = useState([]) // all tasks in firebase
     const [toDoItem, setToDoItem] = useState(true)
 
-    if (todayTasks === "None") {
-        return (
-            <View style={styles.main}>
-                <EmptyDay nav={navigation} type="daily" />
-            </View>
+    useEffect(() => {
+        userRef.onSnapshot((doc) => {
+            if (doc.exists) {
+
+                const taskList = doc.data()["tasks"]
+                setUpdatedTasks(taskList)
+
+                const todayTasks = []
+                taskList.map((task) => {
+                    if (task.toComp === dayString) {
+                        todayTasks.push(task)
+                    }
+                })
+
+                if (todayTasks.length > 0) {
+                    setTasks(todayTasks);
+                    setToDoItem(false)
+                } else {
+                    setToDoItem(true)
+                }
+            } else {
+                console.log("No such document!")
+            }
+        })
+    }, [currentTime])
+
+    const onTaskCompleted = (id) => {
+        updatedTasks.map((task) => {
+            let status = task["isDone"]
+
+            if (task["key"] === id) {
+                task["whenDone"] = dayString
+                task["isDone"] = !status
+                return task
+            }
+
+        })
+
+        userRef.set(
+            { tasks: updatedTasks },
+            { merge: true }
         )
+
     }
 
     return (
         <SafeAreaView style={styles.main}>
-            <ScrollView>
-
-                {todayTasks.map((task) => {
-                    return (
-                        <>
-                            {/* <Text>{task}</Text> */}
-                            <View key={task.id}>
-                                <ToDoListItem
-                                    key={task.id}
-                                    task={task.tname} />
-                            </View>
-                        </>
+            {toDoItem ?
+                <EmptyDay nav={navigation} type="todo" />
+                :
+                <View>
+                    {tasks.map((task) => {
+                        return (
+                            <>
+                                <View key={task.key}>
+                                    <ToDoListItem
+                                        id={task.key}
+                                        task={task.tname}
+                                        isDone={task.isDone}
+                                        onChange={onTaskCompleted} />
+                                </View>
+                            </>
+                        )
+                    }
                     )
-                }
-                )
-                }
-
-            </ScrollView>
+                    }
+                </View>
+            }
         </SafeAreaView>
     )
 }

@@ -10,6 +10,9 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function EmptyItem(props) {
     const [isVisible, setisVisible] = useState(false)
+    // eventCT={eventCT} taskCT={taskCT}
+    const eventCT = props.eventCT
+    const taskCT = props.taskCT
 
     const pressPlusButton = () => {
         setisVisible(!isVisible)
