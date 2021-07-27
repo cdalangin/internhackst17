@@ -11,8 +11,9 @@ const windowHeight = Dimensions.get('window').height;
 // Show stuff as a daily calendar view then add the items there
 
 export default function Events(props) {
-    const { user, activeDate } = useContext(AuthContext)
-    const dayString = format(activeDate, "MMMM dd, yyyy")
+    const { user } = useContext(AuthContext)
+    const currentTime = props.currentTime
+    const dayString = format(currentTime, "MMMM dd, yyyy")
     let userRef = db.collection("users").doc(user.uid)
     const navigation = props.nav
 
@@ -42,7 +43,7 @@ export default function Events(props) {
                 console.log("No such document!")
             }
         })
-    }, [activeDate])
+    }, [currentTime])
 
     return (
         <View style={styles.main}>

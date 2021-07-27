@@ -8,6 +8,7 @@ import MonthlyCalendar from '../shared/MonthlyCalendar';
 import Events from '../shared/Events';
 import ToDoList from "../shared/ToDoList"
 import HomeMonthly from '../screens/main/HomeMonthly';
+import DailyView from '../screens/main/DailyView';
 import Mood from "../screens/forms/Mood"
 import InputToDoList from "../screens/forms/InputToDoList"
 import Schedule from "../screens/forms/Schedule"
@@ -40,6 +41,7 @@ export default function WeeklyStack({ navigation }) {
             <Stack.Screen name="ToDoList" component={ToDoList} />
             <Stack.Screen name="Events" component={Events} />
             <Stack.Screen name="HomeMonthly" component={HomeMonthly} />
+            <Stack.Screen name="DailyView" component={DailyView} />
 
             <Stack.Screen name="InputToDoList" component={InputToDoList} />
             <Stack.Screen name="Mood" component={Mood} />

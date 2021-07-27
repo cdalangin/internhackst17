@@ -11,11 +11,12 @@ import EmptyDay from './components/EmptyDay';
 const windowHeight = Dimensions.get('window').height;
 
 export default function ToDoList(props) {
-    const { user, activeDate } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const navigation = props.nav
+    const currentTime = props.currentTime
     let userRef = db.collection("users").doc(user.uid)
     const [tasks, setTasks] = useState([]); // specific tasks for that day
-    const dayString = format(activeDate, "MMMM dd, yyyy")
+    const dayString = format(currentTime, "MMMM dd, yyyy")
     const [updatedTasks, setUpdatedTasks] = useState([]) // all tasks in firebase
     const [toDoItem, setToDoItem] = useState(true)
 
@@ -43,7 +44,7 @@ export default function ToDoList(props) {
                 console.log("No such document!")
             }
         })
-    }, [activeDate])
+    }, [currentTime])
 
     const onTaskCompleted = (id) => {
         updatedTasks.map((task) => {
@@ -66,29 +67,27 @@ export default function ToDoList(props) {
 
     return (
         <SafeAreaView style={styles.main}>
-            <ScrollView>
-                {toDoItem ?
-                    <EmptyDay nav={navigation} type="todo" />
-                    :
-                    <View>
-                        {tasks.map((task) => {
-                            return (
-                                <>
-                                    <View key={task.key}>
-                                        <ToDoListItem
-                                            id={task.key}
-                                            task={task.tname}
-                                            isDone={task.isDone}
-                                            onChange={onTaskCompleted} />
-                                    </View>
-                                </>
-                            )
-                        }
+            {toDoItem ?
+                <EmptyDay nav={navigation} type="todo" />
+                :
+                <View>
+                    {tasks.map((task) => {
+                        return (
+                            <>
+                                <View key={task.key}>
+                                    <ToDoListItem
+                                        id={task.key}
+                                        task={task.tname}
+                                        isDone={task.isDone}
+                                        onChange={onTaskCompleted} />
+                                </View>
+                            </>
                         )
-                        }
-                    </View>
-                }
-            </ScrollView>
+                    }
+                    )
+                    }
+                </View>
+            }
         </SafeAreaView>
     )
 }

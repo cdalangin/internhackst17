@@ -14,16 +14,13 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function HomeWeekly({ navigation }) {
     const { activeDate, setActiveDate } = useContext(AuthContext)
-    // const [events, setEvents] = useState({})
-    // const [tasks, setTasks] = useState([])
-    // const [date, setDate] = useState(activeDate);
-    // const [currentEvents, setCurrentEvents] = useState([]); // need initial state to be current date
-    // const [currentTasks, setCurrentTasks] = useState([])
-    // const [viewDay, setViewDay] = useState(true);
-    // const [toDoItem, setToDoItem] = useState(true)
 
     const dateChangeHandler = (newDate) => {
         setActiveDate(newDate)
+    }
+
+    const toDailyView = () => {
+        navigation.navigate("DailyView", { currentTime: activeDate })
     }
 
     return (
@@ -31,21 +28,21 @@ export default function HomeWeekly({ navigation }) {
             <TimelineCalendar date={activeDate} onChange={(newDate) => dateChangeHandler(newDate)} />
             <View style={style.main}>
 
-                {/* <TouchableWithoutFeedback onPress={() => onPressDay()} > */}
-                <View>
-                    <ScrollView style={style.agendalist}>
-                        <Events nav={navigation} />
-                    </ScrollView>
-                </View>
-                {/* </TouchableWithoutFeedback> */}
+                <TouchableWithoutFeedback onPress={() => toDailyView()} >
+                    <View>
+                        <ScrollView style={style.agendalist}>
+                            <Events nav={navigation} currentTime={activeDate} />
+                        </ScrollView>
+                    </View>
+                </TouchableWithoutFeedback>
 
-                {/* <TouchableWithoutFeedback onPress={() => { console.log("clicked!") }} > */}
-                <View>
-                    <ScrollView style={style.agendalist}>
-                        <ToDoList nav={navigation} />
-                    </ScrollView>
-                </View>
-                {/* </TouchableWithoutFeedback> */}
+                <TouchableWithoutFeedback onPress={() => toDailyView()} >
+                    <View>
+                        <ScrollView style={style.agendalist}>
+                            <ToDoList nav={navigation} currentTime={activeDate} />
+                        </ScrollView>
+                    </View>
+                </TouchableWithoutFeedback>
 
                 <QuoteBlock />
 

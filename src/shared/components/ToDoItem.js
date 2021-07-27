@@ -1,13 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { db } from '../../firebase/config';
 import { AuthContext } from '../../screens/auth/AuthContext';
-
-import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-// import { useEffect } from 'react/cjs/react.development';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -19,20 +15,9 @@ export default function ToDoListItem(props) {
     const [done, setDone] = useState(isDone)
     const onChange = props.onChange
 
-    // useEffect(() => {
-
-    // })
-
     const taskHandler = () => {
         setDone(!done)
         onChange(id)
-        // const userRef = db.collection("users").doc(user.uid)
-
-        // userRef.update({
-        //     "age": 13,
-        //     "favorites.color": "Red"
-        // });
-
     }
 
     return (

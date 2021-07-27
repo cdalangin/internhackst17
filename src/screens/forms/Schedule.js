@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, TouchableOpacity, View, Button } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, { useContext, useState } from 'react'
+import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, View, Button } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import format from 'date-fns/format'
@@ -8,10 +7,8 @@ import styles from './formstyle.js';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { db, auth } from '../../firebase/config'
+import { db } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext';
-
-// 2021-07-22T01:56:12.691Z
 
 export default function Schedule({ navigation }) {
     const { user } = useContext(AuthContext)
@@ -26,20 +23,20 @@ export default function Schedule({ navigation }) {
     const [sButton, setSButton] = useState("Event Start Time")
     const [eButton, setEButton] = useState("Event End Time")
 
-    let months = {
-        Jan: "01",
-        Feb: "02",
-        Mar: "03",
-        Apr: "04",
-        May: "05",
-        Jun: "06",
-        Jul: "07",
-        Aug: "08",
-        Sep: "09",
-        Oct: "10",
-        Nov: "11",
-        Dec: "12"
-    }
+    // let months = {
+    //     Jan: "01",
+    //     Feb: "02",
+    //     Mar: "03",
+    //     Apr: "04",
+    //     May: "05",
+    //     Jun: "06",
+    //     Jul: "07",
+    //     Aug: "08",
+    //     Sep: "09",
+    //     Oct: "10",
+    //     Nov: "11",
+    //     Dec: "12"
+    // }
 
     const [infoState, setInfoState] = useState(initialState)
 
@@ -59,18 +56,12 @@ export default function Schedule({ navigation }) {
         setDatePickerVisibility(false);
     };
 
-    // TODO: Change date format to YYYY-MM-DD
     const confirmDate = (date) => {
         const format_date = format(date, "MMMM dd, yyyy")
         const getDay = date.toDateString() + ""
         const split_date = getDay.split(' ')
 
         const day = split_date[0]
-        // const strMonth = split_date[1]
-
-        // const string_date = split_date[3] + "-" + months[strMonth] + "-" + split_date[2]
-        // console.warn("A date has been picked: ", string_date);
-
         setInfoState(prevState => ({ ...prevState, "edate": format_date, "eday": day }))
         hideDatePicker();
     };
@@ -147,7 +138,8 @@ export default function Schedule({ navigation }) {
             var userDoc = db.collection('users').doc(uid)
 
             userDoc.update({
-                events: firebase.firestore.FieldValue.arrayUnion(eventObj)
+                events: firebase.firestore.FieldValue.arrayUnion(eventObj),
+                taskCT: firebase.firestore.FieldValue.increment(1)
             }).then(clearState)
         }
 
@@ -175,7 +167,6 @@ export default function Schedule({ navigation }) {
                     onConfirm={confirmDate}
                     onCancel={hideDatePicker}
                 />
-                <Text></Text>
             </View>
             <View>
                 <Button title={sButton} onPress={showStartTimePicker} />
@@ -185,7 +176,6 @@ export default function Schedule({ navigation }) {
                     onConfirm={confirmStartTime}
                     onCancel={hideStartTimePicker}
                 />
-                <Text></Text>
             </View>
             <View>
                 <Button title={eButton} onPress={showEndTimePicker} />
@@ -195,7 +185,6 @@ export default function Schedule({ navigation }) {
                     onConfirm={confirmEndTime}
                     onCancel={hideEndTimePicker}
                 />
-                <Text></Text>
             </View>
             <View>
                 <Text>Set Priority Level:</Text>
