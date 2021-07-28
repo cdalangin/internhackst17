@@ -1,5 +1,7 @@
 # Prioritize
 
+<img src="assets/icon-01.png" alt="logo" width="200px;"/>
+
 ## Where Organization and Mindfulness Meet.
 Prioritize is a mobile app that helps users organize their lives and promote productivity and self care. The app will ask users to input their day-by-day events such as meetings and classes, as well as tasks and assignments they have to accomplish. The app would determine the free time that the user has based on the events they have scheduled, then block out time to work on each task. It would also determine the remaining free time the user will have and designate lunch periods, screen breaks, or time to do something they enjoy such as spending time with family and friends, reading a book, or playing their favorite sport, all to avoid burnout and feel more relaxed. 
 
@@ -10,14 +12,17 @@ It is no surprise that both high school and college students are stressed. Wheth
 insert pictures here!
 
 ## Technologies Used
-* Figma: to create the mockup images
-* React app
-* Google Firebase for authentication and the database
-* add in rest
+* Figma: Create the mockup images
+* React Native
+* Google Firebase: Authentication and Database
+* [React Navigation](https://reactnavigation.org/)
+* [React Native Calendar](https://github.com/wix/react-native-calendars)
 
 ## Check it Out!
 
-## Made with love by Internhack's Team 17
+[Expo Deployment](https://expo.dev/@cdalangin/prioritize)
+
+## Made with Love by Internhack's Team 17
 * Cirill Dalangin
 * Alexandra von der Goltz
 * William Young
