@@ -31,7 +31,7 @@ export default function InputToDoList({ navigation }) {
             }
         })
 
-    }, [])
+    }, [taskCT])
 
     const initialState = {
         "key": "task" + taskCT,
