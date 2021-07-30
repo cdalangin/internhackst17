@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Text, TextInput, Button, View } from 'react-native'
+import { Text, TextInput, Button, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import format from 'date-fns/format'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -9,6 +9,8 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { db } from '../../firebase/config'
 import { AuthContext } from '../auth/AuthContext';
+
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function InputToDoList({ navigation }) {
     const { user, activeDate } = useContext(AuthContext)
@@ -81,35 +83,46 @@ export default function InputToDoList({ navigation }) {
 
 
     return (
-        <KeyboardAwareScrollView style={styles.container}>
-            <Text style={styles.title}>Input To Do List</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={(text) => setToDoItem(prevState => ({ ...prevState, "tname": text }))}
-                value={toDoItem["tname"]}
-                placeholder="Name of Task"
-            />
+        <SafeAreaView>
+            <ScrollView contentContainerStyle={styles.container}>
+                <View style={styles.box}>
+                    <Text style={styles.title}>Add a Task:</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => setToDoItem(prevState => ({ ...prevState, "tname": text }))}
+                        value={toDoItem["tname"]}
+                        placeholder="Name of Task"
+                    />
 
-            <View>
-                <Text>Task Date: {displayDate}</Text>
-                <Button title="Change" onPress={showDatePicker} />
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    minimumDate={new Date()}
-                    onConfirm={confirmDate}
-                    onCancel={hideDatePicker}
-                />
+                    <View style={styles.inputDate}>
+                        <Text style={styles.text}>{displayDate}</Text>
+                        <TouchableOpacity onPress={showDatePicker} style={styles.button} >
+                            <Text style={styles.buttonTitle}>Change</Text>
+                        </TouchableOpacity>
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            minimumDate={new Date()}
+                            onConfirm={confirmDate}
+                            onCancel={hideDatePicker}
+                        />
 
-            </View>
+                    </View>
 
-            <View>
-                <Button title="Add Task" onPress={submitTask} />
-            </View>
+                    <View>
+                        <TouchableOpacity onPress={submitTask} style={styles.buttonAdd} >
+                            <Text style={styles.buttonTitle}>Add Task</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <View>
-                <Button title="Next" onPress={nextScreen} />
-            </View>
-        </KeyboardAwareScrollView>
+                    <View style={styles.nextView}>
+                        <TouchableOpacity onPress={nextScreen} style={styles.next} >
+                            <Text style={styles.nexttext}>Next</Text>
+                            <MaterialIcons name="navigate-next" size={30} color="thistle" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     )
 }

@@ -66,7 +66,11 @@ export default function MainNav() {
                 </>
             ) : (
                 <>
-                    <Stack.Navigator>
+                    <Stack.Navigator screenOptions={{
+                        headerStyle: { elevation: 0, backgroundColor: '#EEDCFD', },
+                        headerTitleStyle: { color: "#9A76A5" },
+                        cardStyle: { backgroundColor: '#EEDCFD' }
+                    }}>
                         <Stack.Screen name="Login" component={LoginScreen}
                             options={{
                                 title: 'Sign in',
