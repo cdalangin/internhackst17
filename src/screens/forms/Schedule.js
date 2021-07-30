@@ -140,7 +140,7 @@ export default function Schedule({ navigation }) {
 
             userDoc.update({
                 events: firebase.firestore.FieldValue.arrayUnion(eventObj),
-                taskCT: firebase.firestore.FieldValue.increment(1)
+                eventCT: firebase.firestore.FieldValue.increment(1)
             }).then(clearState)
         }
 
@@ -203,6 +203,7 @@ export default function Schedule({ navigation }) {
                             onValueChange={(itemValue) =>
                                 setInfoState(prevState => ({ ...prevState, "epriority": itemValue }))
                             }>
+                            <Picker.Item label="Select Priority Level" value="N/A" />
                             <Picker.Item label="High" value="high" />
                             <Picker.Item label="Medium" value="medium" />
                             <Picker.Item label="Low" value="low" />
