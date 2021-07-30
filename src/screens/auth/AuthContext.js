@@ -55,8 +55,8 @@ export const AuthProvider = ({ children }) => {
                                     joined: format(new Date(), "MMMM dd, yyyy"),
                                     tasks: [],
                                     events: [],
-                                    taskCT: 0,
-                                    eventCT: 0
+                                    taskCT: 1,
+                                    eventCT: 1
                                 };
                                 const usersRef = db.collection('users')
                                 usersRef
