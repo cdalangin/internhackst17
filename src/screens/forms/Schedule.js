@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react'
-import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, View, Button } from 'react-native'
+import { StyleSheet, SafeAreaView, ScrollView, Keyboard, Text, TextInput, View, TouchableOpacity } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import format from 'date-fns/format'
 import styles from './formstyle.js';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -150,63 +151,78 @@ export default function Schedule({ navigation }) {
     }
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>Input Schedule</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={(text) => setInfoState(prevState => ({ ...prevState, "ename": text }))}
-                value={infoState.ename}
-                placeholder="Name of Event"
-            />
-            <View>
-                <Button title={infoState.edate} onPress={showDatePicker} />
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    minimumDate={new Date()}
-                    onConfirm={confirmDate}
-                    onCancel={hideDatePicker}
-                />
-            </View>
-            <View>
-                <Button title={sButton} onPress={showStartTimePicker} />
-                <DateTimePickerModal
-                    isVisible={isStartTimePickerVisible}
-                    mode="time"
-                    onConfirm={confirmStartTime}
-                    onCancel={hideStartTimePicker}
-                />
-            </View>
-            <View>
-                <Button title={eButton} onPress={showEndTimePicker} />
-                <DateTimePickerModal
-                    isVisible={isEndTimePickerVisible}
-                    mode="time"
-                    onConfirm={confirmEndTime}
-                    onCancel={hideEndTimePicker}
-                />
-            </View>
-            <View>
-                <Text>Set Priority Level:</Text>
-                <Picker
-                    selectedValue={infoState.epriority}
-                    onValueChange={(itemValue) =>
-                        setInfoState(prevState => ({ ...prevState, "epriority": itemValue }))
-                    }>
-                    <Picker.Item label="High" value="high" />
-                    <Picker.Item label="Medium" value="medium" />
-                    <Picker.Item label="Low" value="low" />
-                </Picker>
-            </View>
-            <View>
-                <Button title="Add event" onPress={submitEvent} />
-            </View>
+        <SafeAreaView>
+            <ScrollView contentContainerStyle={styles.container}>
+                <View style={styles.box}>
+                    <Text style={styles.title}>Add an event:</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => setInfoState(prevState => ({ ...prevState, "ename": text }))}
+                        value={infoState.ename}
+                        placeholder="Name of Event"
+                    />
+                    <View>
+                        <TouchableOpacity onPress={showDatePicker} style={styles.buttonAdd}>
+                            <Text style={styles.buttonTitle}>{infoState.edate}</Text>
+                        </TouchableOpacity>
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            minimumDate={new Date()}
+                            onConfirm={confirmDate}
+                            onCancel={hideDatePicker}
+                        />
+                    </View>
+                    <View>
+                        <TouchableOpacity onPress={showStartTimePicker} style={styles.buttonAdd}>
+                            <Text style={styles.buttonTitle}>{sButton}</Text>
+                        </TouchableOpacity>
+                        <DateTimePickerModal
+                            isVisible={isStartTimePickerVisible}
+                            mode="time"
+                            onConfirm={confirmStartTime}
+                            onCancel={hideStartTimePicker}
+                        />
+                    </View>
+                    <View>
+                        <TouchableOpacity onPress={showEndTimePicker} style={styles.buttonAdd}>
+                            <Text style={styles.buttonTitle}>{eButton}</Text>
+                        </TouchableOpacity>
+                        <DateTimePickerModal
+                            isVisible={isEndTimePickerVisible}
+                            mode="time"
+                            onConfirm={confirmEndTime}
+                            onCancel={hideEndTimePicker}
+                        />
+                    </View>
+                    <View>
+                        <Text style={styles.text}>Set Priority Level:</Text>
+                        <Picker
+                            style={styles.picker}
+                            selectedValue={infoState.epriority}
+                            onValueChange={(itemValue) =>
+                                setInfoState(prevState => ({ ...prevState, "epriority": itemValue }))
+                            }>
+                            <Picker.Item label="High" value="high" />
+                            <Picker.Item label="Medium" value="medium" />
+                            <Picker.Item label="Low" value="low" />
+                        </Picker>
+                    </View>
+                    <View>
+                        <TouchableOpacity onPress={submitEvent} style={styles.buttonAdd} >
+                            <Text style={styles.buttonTitle}>Add Event</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <View>
-                <Button title="Next" onPress={nextScreen} />
-            </View>
-
-        </ScrollView>
+                    <View style={styles.nextView}>
+                        <TouchableOpacity onPress={nextScreen} style={styles.next} >
+                            <Text style={styles.nexttext}>Next</Text>
+                            <MaterialIcons name="navigate-next" size={30} color="thistle" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
