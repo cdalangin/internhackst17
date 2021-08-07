@@ -29,4 +29,3 @@ It is no surprise that both high school and college students are stressed. Wheth
 * Cirill Dalangin
 * Alexandra von der Goltz
 * William Young
-* Sky Priutt
